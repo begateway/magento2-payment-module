@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+Copyright (C) 2017 beGateway
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+@author      beGateway
+@copyright   2017 beGateway
+@license     http://opensource.org/licenses/gpl-2.0.php GNU General Public License, version 2 (GPL-2.0)
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <virtualType name="BeGateway\BeGateway\Model\ConfigProvider" type="Magento\Payment\Model\CcGenericConfigProvider">
+        <arguments>
+            <argument name="methodCodes" xsi:type="array">
+                <item name="begateway_checkout" xsi:type="const">BeGateway\BeGateway\Model\Method\Checkout::CODE</item>
+                <item name="begateway_direct" xsi:type="const">BeGateway\BeGateway\Model\Method\Direct::CODE</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="begateway_direct_config_provider" xsi:type="object">BeGateway\BeGateway\Model\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
