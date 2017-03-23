@@ -28,6 +28,8 @@ ERIP,ЕРИП
 "You will be redirected to our partner's website, where you can safely pay.","Для оплаты Вы будете перенаправлены на защищённую страницу платёжной системы."
 "Continue to payment","Перейти к оплате"
 beGateway,beGateway
+"beGateway Checkout","beGateway Checkout"
+"beGateway Direct","beGateway Direct"
 "Accept payments through beGateway payment platform","Принимайте платеже через платёжную систему, работающую на платформе beGateway"
 "Checkout payment method - receive credit-card payments, without the need of PCI-DSS certificate or HTTPS. Note: Upon checkout, the customer will be redirected to a secure payment form, located on our servers and we will notify you, once the payment reached a final status","Принимайте оплату банковскими картами без сертификации по стандарту PCI DSS или на сайте без сертификата HTTPS. Примечание: во время оплаты клиент будет перенаправлен на защищенную страницу платежной системы. После оплаты вы получите уведомление."
 Enabled,Включено
@@ -36,7 +38,7 @@ Title,"Имя способа оплаты"
 "Shop Secret Key","Секретный ключ магазина"
 "Checkout Domain","Домен страницы оплаты"
 "Your payment service provider checkout domain e.g. checkout.example.com","Домен страницы оплаты Вашей платёжной системы. Например, checkout.example.com"
-"Gateway Domain","Gateway Domain"
+"Gateway Domain","Домен платежного шлюза"
 "Your payment service provider gateway domain e.g. gateway.example.com","Домен платёжного шлюза Вашей платёжной системы. Например, gateway.example.com"
 "Transaction Types","Типы операций"
 "Select the transaction types that must be attempted during the customer's Checkout session.","Выберите типы операций, доступные во время оплаты."

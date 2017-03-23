@@ -19,7 +19,7 @@ GNU General Public License for more details.
 
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="begateway_direct" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-        <label>beGateway</label>
+        <label>beGateway Direct</label>
         <comment>Direct payment method - allow customers to enter their CreditCard information on your website. Note: You need PCI-DSS certificate in order to enable this payment method.</comment>
         <frontend_model>BeGateway\BeGateway\Block\Adminhtml\System\Config\Fieldset\CheckoutPayment</frontend_model>
         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">

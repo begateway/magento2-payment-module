@@ -19,7 +19,7 @@ GNU General Public License for more details.
 
 <include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
     <group id="begateway_checkout" translate="label comment" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
-        <label>beGateway</label>
+        <label>beGateway Checkout</label>
         <comment>Checkout payment method - receive credit-card payments, without the need of PCI-DSS certificate or HTTPS. Note: Upon checkout, the customer will be redirected to a secure payment form, located on our servers and we will notify you, once the payment reached a final status</comment>
         <frontend_model>BeGateway\BeGateway\Block\Adminhtml\System\Config\Fieldset\CheckoutPayment</frontend_model>
         <field id="active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0">

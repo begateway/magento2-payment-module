@@ -28,6 +28,8 @@ ERIP,ERIP
 "You will be redirected to our partner's website, where you can safely pay.","You will be redirected to our partner's website, where you can safely pay."
 "Continue to payment","Continue to payment"
 beGateway,beGateway
+"beGateway Checkout","beGateway Checkout"
+"beGateway Direct","beGateway Direct"
 "Accept payments through beGateway payment platform","Accept payments through beGateway payment platform"
 "Checkout payment method - receive credit-card payments, without the need of PCI-DSS certificate or HTTPS. Note: Upon checkout, the customer will be redirected to a secure payment form, located on our servers and we will notify you, once the payment reached a final status","Checkout payment method - receive credit-card payments, without the need of PCI-DSS certificate or HTTPS. Note: Upon checkout, the customer will be redirected to a secure payment form, located on our servers and we will notify you, once the payment reached a final status"
 Enabled,Enabled
