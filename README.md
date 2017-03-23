@@ -1,6 +1,6 @@
 # beGateway Payment Module for Magento 2 CE
 
-[Русская версия]()
+[Русская версия](#Модуль-оплаты-begateway-для-magento-2-ce)
 
 This is a Payment Module for Magento 2 Community Edition, that gives you the ability to process payments through payment service providers running on beGateway platform.
 
@@ -103,7 +103,7 @@ If you setup the module with default values, you can use the test data to make a
   * Card expiry date ```10/20``` to get a failed payment
   * CVC ```123```
 
-# Модуль оплаты beGateway Payment Module для Magento 2 CE
+# Модуль оплаты beGateway для Magento 2 CE
 
 Модуль оплаты для Magento 2 Community Edition, который даст вам возможность начать принимать платежи через провайдеров платежей, использующих платформу beGateway.
 
