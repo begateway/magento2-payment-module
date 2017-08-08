@@ -1,5 +1,5 @@
 {
-  "name": "BeGateway/BeGateway",
+  "name": "begateway/magento2-payment-module",
   "description": "BeGateway Magento 2 payment module",
   "type": "magento2-module",
   "version": "1.1.0",
