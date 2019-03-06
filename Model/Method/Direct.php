@@ -396,7 +396,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
     {
         $requestClassName = ucfirst($transactionType);
 
-        return "\\beGateway\\{$requestClassName}";
+        return "\\BeGateway\\{$requestClassName}Operation";
     }
 
     /**
@@ -454,6 +454,7 @@ class Direct extends \Magento\Payment\Model\Method\Cc
         $transaction->customer->setCity($billing->getCity());
         $transaction->customer->setZip($billing->getPostcode());
         $transaction->customer->setState($billing->getRegionCode());
+        $transaction->setTestMode(intval($this->getConfigHelper()->getTestMode()) == 1);
 
         if (!empty($payment->getCcOwner())) {
           $transaction->card->setCardHolder($payment->getCcOwner());

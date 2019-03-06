@@ -137,7 +137,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
      */
     protected function checkout($data)
     {
-      $transaction = new \beGateway\GetPaymentToken;
+      $transaction = new \BeGateway\GetPaymentToken;
 
       $transaction->money->setAmount($data['order']['amount']);
       $transaction->money->setCurrency($data['order']['currency']);
@@ -150,17 +150,16 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->customer->setCity(strval($data['order']['billing']->getCity()));
       $transaction->customer->setCountry(strval($data['order']['billing']->getCountryId()));
       $transaction->customer->setZip($data['order']['billing']->getPostcode());
+      $transaction->setTestMode(intval($this->getConfigHelper()->getTestMode()) == 1);
 
       if (in_array(strval($data['order']['billing']->getCountryId()), array('US', 'CA')))
         $transaction->customer->setState(strval($data['order']['billing']->getRegionCode()));
 
       if (!empty(strval($data['order']['customer']['email']))) {
         $transaction->customer->setEmail(strval($data['order']['customer']['email']));
-        $transaction->setEmailReadOnly();
       }
 
       $transaction->customer->setPhone(strval($data['order']['billing']->getTelephone()));
-      $transaction->setAddressHidden();
 
       $notification_url = $data['urls']['notify'];
       $notification_url = str_replace('carts.local', 'webhook.begateway.com:8443', $notification_url);
@@ -175,17 +174,17 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $helper = $this->getModuleHelper();
 
       if (in_array($helper::CREDIT_CARD, $payment_methods)) {
-        $cc = new \beGateway\PaymentMethod\CreditCard;
+        $cc = new \BeGateway\PaymentMethod\CreditCard;
         $transaction->addPaymentMethod($cc);
       }
 
       if (in_array($helper::CREDIT_CARD_HALVA, $payment_methods)) {
-        $halva = new \beGateway\PaymentMethod\CreditCardHalva;
+        $halva = new \BeGateway\PaymentMethod\CreditCardHalva;
         $transaction->addPaymentMethod($halva);
       }
 
       if (in_array($helper::ERIP, $payment_methods)) {
-        $erip = new \beGateway\PaymentMethod\Erip(array(
+        $erip = new \BeGateway\PaymentMethod\Erip(array(
           'order_id' => $data['order']['increment_id'],
           'account_number' => strval($data['order']['increment_id']),
           'service_no' => $data['erip']['service_no'],

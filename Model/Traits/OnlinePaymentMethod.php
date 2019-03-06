@@ -152,7 +152,7 @@ trait OnlinePaymentMethod
         $this->getConfigHelper()->initGatewayClient();
         $helper = $this->getModuleHelper();
 
-        $begateway = "\\beGateway\\$transactionType";
+        $begateway = "\\BeGateway\\{$transactionType}Operation";
         $begateway = new $begateway;
 
         $begateway->setParentUid($data['reference_id']);

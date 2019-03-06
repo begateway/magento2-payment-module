@@ -37,6 +37,7 @@ GNU General Public License for more details.
                 <erip_service_no>99999999</erip_service_no>
                 <min_order_total>0.01</min_order_total>
                 <enable_logging>0</enable_logging>
+                <test_mode>1</test_mode>
                 <allowspecific>0</allowspecific>
                 <allow_specific_currency>0</allow_specific_currency>
                 <group>begateway</group>
@@ -53,6 +54,7 @@ GNU General Public License for more details.
                 <card>1</card>
                 <min_order_total>0.01</min_order_total>
                 <enable_logging>0</enable_logging>
+                <test_mode>1</test_mode>
                 <allowspecific>0</allowspecific>
                 <allow_specific_currency>0</allow_specific_currency>
                 <group>begateway</group>
