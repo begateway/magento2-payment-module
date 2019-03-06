@@ -94,7 +94,7 @@ class BeGatewayIpn extends \BeGateway\BeGateway\Model\Ipn\AbstractIpn
                 $payment_transaction
             );
 
-            $money = new \beGateway\Money;
+            $money = new \BeGateway\Money;
             $money->setCents($payment_transaction->getResponse()->transaction->amount);
             $money->setCurrency($payment_transaction->getResponse()->transaction->currency);
 

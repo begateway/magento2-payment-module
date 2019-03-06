@@ -57,4 +57,5 @@ Title,Title
 "Leave empty to disable limit","Leave empty to disable limit"
 "Sort Order","Sort Order"
 "Enable debug logging","Enable debug logging"
+"Enable test mode","Enable test mode"
 "Direct payment method - allow customers to enter their CreditCard information on your website. Note: You need PCI-DSS certificate in order to enable this payment method.","Direct payment method - allow customers to enter their CreditCard information on your website. Note: You need PCI-DSS certificate in order to enable this payment method."

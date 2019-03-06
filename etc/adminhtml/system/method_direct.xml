@@ -165,5 +165,13 @@ GNU General Public License for more details.
                 <field id="active">1</field>
             </depends>
         </field>
+        <field id="test_mode" translate="label" sortOrder="120" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Enable test mode</label>
+            <config_path>payment/begateway_checkout/test_mode</config_path>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <depends>
+                <field id="active">1</field>
+            </depends>
+        </field>
     </group>
 </include>

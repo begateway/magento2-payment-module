@@ -68,10 +68,10 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
      */
     public function initGatewayClient()
     {
-        \beGateway\Settings::$shopId  = $this->getShopId();
-        \beGateway\Settings::$shopKey = $this->getShopKey();
-        \beGateway\Settings::$gatewayBase = 'https://' . $this->getDomainGateway();
-        \beGateway\Settings::$checkoutBase = 'https://' . $this->getDomainCheckout();
+        \BeGateway\Settings::$shopId  = $this->getShopId();
+        \BeGateway\Settings::$shopKey = $this->getShopKey();
+        \BeGateway\Settings::$gatewayBase = 'https://' . $this->getDomainGateway();
+        \BeGateway\Settings::$checkoutBase = 'https://' . $this->getDomainCheckout();
     }
 
     /**
@@ -310,5 +310,14 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
                 $this->getValue('specific_currencies')
             )
         );
+    }
+
+    /**
+     * Get Test Mode state
+     * @return null|string
+     */
+    public function getTestMode()
+    {
+        return $this->getValue('test_mode');
     }
 }

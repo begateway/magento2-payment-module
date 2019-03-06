@@ -7,7 +7,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
 ## Requirements
 
   * Magento 2 Community Edition 2.x (Tested up to __2.1.3__)
-  * [beGateway PHP API library v2.7.x](https://github.com/beGateway/begateway-api-php) - (Integrated in Module)
+  * [BeGateway PHP API library ](https://github.com/begateway/begateway-api-php) - (Integrated in Module)
   * PCI DSS certified server in order to use ```beGateway Direct```
 
 *Note:* this module has been tested only with Magento 2 __Community Edition__, it may not work as intended with Magento 2 __Enterprise Edition__
@@ -94,14 +94,23 @@ If you setup the module with default values, you can use the test data to make a
   * Shop Secret Key ```b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d```
   * Checkout Domain ```checkout.begateway.com```
   * Gateway Domain ```demo-gateway.begateway.com```
+  * Enable test mode ``Yes``
 
 ### Test card details
 
-  * Card number ```4200000000000000```
-  * Card name ```John Doe```
-  * Card expiry date ```01/20``` to get a success payment
-  * Card expiry date ```10/20``` to get a failed payment
-  * CVC ```123```
+Use the following test card to make successful test payment:
+
+  * Card number: 4200000000000000
+  * Name on card: JOHN DOE
+  * Card expiry date: 01/30
+  * CVC: 123
+
+Use the following test card to make failed test payment:
+
+  * Card number: 4005550000000019
+  * Name on card: JOHN DOE
+  * Card expiry date: 01/30
+  * CVC: 123
 
 # Модуль оплаты beGateway для Magento 2 CE
 
@@ -110,7 +119,7 @@ If you setup the module with default values, you can use the test data to make a
 ## Требования
 
   * Magento 2 Community Edition 2.x (тестировалось на версиях до __2.1.3__)
-  * [beGateway PHP API библиотека v2.7.x](https://github.com/beGateway/begateway-api-php) - (поставляется с модулем)
+  * [BeGateway PHP API библиотека](https://github.com/beGateway/begateway-api-php) - (поставляется с модулем)
   * PCI DSS сертифицированный сервер, чтобы принимать платежи через ```beGateway Direct```
 
 *Примечание:* этот модуль тестировался только с Magento 2 __Community Edition__ и может работать не стабильно с Magento 2 __Enterprise Edition__
@@ -124,7 +133,7 @@ If you setup the module with default values, you can use the test data to make a
     * Установите модуль оплаты
 
         ```sh
-        $ composer require begateway/magento2-payment-module
+        $ composer require begateway/begateway-api-php 4.2.1
         ```
 
     * Включите модуль оплаты
@@ -150,7 +159,7 @@ If you setup the module with default values, you can use the test data to make a
   * Установите beGateway PHP API библиотеку
 
     ```sh
-    $ composer require begateway/begateway-api-php
+    $ composer require begateway/begateway-api-php 4.2.1
     ```
 
   * Включить модуль оплаты
@@ -197,11 +206,20 @@ If you setup the module with default values, you can use the test data to make a
   * Секретный ключ магазина ```b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d```
   * Домен страницы оплаты ```checkout.begateway.com```
   * Домен платежного шлюза ```demo-gateway.begateway.com```
+  * Включить тестовый режим ``Да``
 
 ### Тестовая карта
 
-  * Номер карты ```4200000000000000```
-  * Имя на карте ```John Doe```
-  * Срок действия для успешной оплаты ```01/20```
-  * Срок действия для неуспешной оплаты ```10/20```
-  * CVC ```123```
+Используйте следующие данные карты для успешного тестового платежа:
+
+  * Номер карты: 4200000000000000
+  * Имя на карте: JOHN DOE
+  * Месяц срока действия карты: 01/30
+  * CVC: 123
+
+Используйте следующие данные карты для неуспешного тестового платежа:
+
+  * Номер карты: 4005550000000019
+  * Имя на карте: JOHN DOE
+  * Месяц срока действия карты: 01/30
+  * CVC: 123

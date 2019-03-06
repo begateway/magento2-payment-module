@@ -114,7 +114,7 @@ abstract class AbstractIpn
     {
         $this->_configHelper->initGatewayClient();
 
-        $webhook = new \beGateway\Webhook;
+        $webhook = new \BeGateway\Webhook;
 
         if (!$webhook->isAuthorized())
           return array(
