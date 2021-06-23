@@ -130,6 +130,17 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
+     * Get Available Checkout Payment Method Types
+     * @return array
+     */
+    public function getCheckoutPaymentMethodTypes()
+    {
+        $selected_types = $this->getConfigHelper()->getPaymentMethodTypes();
+
+        return $selected_types;
+    }
+
+    /**
      * Create a Web-Payment Form Instance
      * @param array $data
      * @return \stdClass
@@ -170,8 +181,14 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->setFailUrl($data['urls']['return_failure']);
       $transaction->setCancelUrl($data['urls']['return_cancel']);
 
-      $payment_methods = $this->getCheckoutTransactionTypes();
+      $payment_methods = $this->getPaymentMethodTypes();
       $helper = $this->getModuleHelper();
+
+      $trx_type = $this->getTransactionTypes();
+
+      if ($trx_type == $helper::AUTHORIZE) {
+        $transaction->setAuthorizationTransactionType();
+      }
 
       if (in_array($helper::CREDIT_CARD, $payment_methods)) {
         $cc = new \BeGateway\PaymentMethod\CreditCard;
