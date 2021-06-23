@@ -27,10 +27,9 @@ GNU General Public License for more details.
                 <active>0</active>
                 <order_status>payment_review</order_status>
                 <transaction_type>payment</transaction_type>
-                <shop_id />
-                <shop_key />
-                <domain_checkout />
-                <domain_gateway />
+                <shop_id>361</shop_id>
+                <shop_key>b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d</shop_key>
+                <domain_checkout>checkout.begateway.com</domain_checkout>
                 <card>1</card>
                 <card_halva>0</card_halva>
                 <erip>0</erip>
@@ -48,9 +47,9 @@ GNU General Public License for more details.
                 <active>0</active>
                 <order_status>payment_review</order_status>
                 <transaction_type>payment</transaction_type>
-                <shop_id />
-                <shop_key />
-                <domain_gateway />
+                <shop_id>361</shop_id>
+                <shop_key>b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d</shop_key>
+                <domain_gateway>demo-gateway.begateway.com</domain_gateway>
                 <card>1</card>
                 <min_order_total>0.01</min_order_total>
                 <enable_logging>0</enable_logging>
