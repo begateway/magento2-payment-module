@@ -6,7 +6,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
 
 ## Requirements
 
-  * Magento 2 Community Edition 2.x (Tested up to __2.1.3__)
+  * Magento 2 Community Edition 2.x (Tested up to __2.3.7__)
   * [BeGateway PHP API library ](https://github.com/begateway/begateway-api-php) - (Integrated in Module)
   * PCI DSS certified server in order to use ```beGateway Direct```
 
@@ -46,7 +46,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
   * Install beGateway PHP API Library
 
     ```sh
-    $ composer require begateway/begateway-api-php
+    $ composer require begateway/begateway-api-php 4.4.3
     ```
 
   * Enable Payment Module
@@ -131,9 +131,9 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
     git checkout 2.3
 
     dockergento setup
-    
+
     # See Workaround to improve performance on Mac before to move forward
-    
+
     dockergento start
     dockergento composer config repositories.0 composer https://repo.magento.com
     dockergento composer install
@@ -156,16 +156,13 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
       --use-rewrites=1
 
     dockergento magento deploy:mode:set developer
-    dockergento composer require begateway/begateway-api-php 4.2.1
+    dockergento composer require begateway/begateway-api-php 4.4.3
 
     # install sample data
     dockergento magento sampledata:deploy
-    
-    
 
     # install module
-    dockergento magento module:enable BeGateway_BeGateway
-
+    dockergento magento module:enable BeGateway_BeGateway --clear-static-content
     dockergento magento setup:upgrade
 
     # copy sample data to host
@@ -174,7 +171,7 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
 ### Workaround to improve performance on Mac.
 
 1. Remove these lines on `docker-compose.dev.mac.yml`
-    
+
     ```
         - ./app:/var/www/html/app:delegated
         - ./.git:/var/www/html/.git:delegated
@@ -184,15 +181,15 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
         - ./pub:/var/www/html/pub:delegated
         - ./var:/var/www/html/var:delegated
     ```
-    
+
 1. Remove these lines on `docker-compose.yml`
-    
+
     ```
         - ../.composer:/var/www/html/var/composer_home:delegated
     ```
- 
+
 2. Sync `app` using `unison` container. Add this in `docker-compose.dev.mac.yml`
-     
+
     ```
     unison:
       volumes:
@@ -218,7 +215,7 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
 
 ## Требования
 
-  * Magento 2 Community Edition 2.x (тестировалось на версиях до __2.1.3__)
+  * Magento 2 Community Edition 2.x (тестировалось на версиях до __2.3.7__)
   * [BeGateway PHP API библиотека](https://github.com/beGateway/begateway-api-php) - (поставляется с модулем)
   * PCI DSS сертифицированный сервер, чтобы принимать платежи через ```beGateway Direct```
 
@@ -233,7 +230,7 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
     * Установите модуль оплаты
 
         ```sh
-        $ composer require begateway/begateway-api-php 4.2.1
+        $ composer require begateway/magento2-payment-module
         ```
 
     * Включите модуль оплаты
@@ -259,7 +256,7 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
   * Установите beGateway PHP API библиотеку
 
     ```sh
-    $ composer require begateway/begateway-api-php 4.2.1
+    $ composer require begateway/begateway-api-php 4.4.3
     ```
 
   * Включить модуль оплаты
