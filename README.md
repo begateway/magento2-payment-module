@@ -119,7 +119,12 @@ Clone and install `dockergento` client tool https://github.com/begateway/magento
 Clone and install Magento from Github https://github.com/magento/magento2 to the directory `magento2` and then run commands as follows
 
     export COMPOSE_HTTP_TIMEOUT=180
+    git clone https://github.com/magento/magento2
     cd magento2
+
+    # clone module repository
+    mkdir -p app/code/BeGateway
+    git clone https://github.com/begateway/magento2-payment-module app/code/BeGateway/BeGateway
 
     # feel free to switch to needed Magento version
     # e.g. switch to Magento 2.3
