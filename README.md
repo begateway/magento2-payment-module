@@ -131,6 +131,10 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
     git checkout 2.3
 
     dockergento setup
+    
+    # See Workaround to improve performance on Mac before to move forward
+    
+    dockergento start
     dockergento composer config repositories.0 composer https://repo.magento.com
     dockergento composer install
 
@@ -156,18 +160,57 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
 
     # install sample data
     dockergento magento sampledata:deploy
+    
+    
 
     # install module
     dockergento magento module:enable BeGateway_BeGateway
 
     dockergento magento setup:upgrade
 
+    # copy sample data to host
+    dockergento mirror-container .
 
-    - ../begateway-shopping-carts/magento2-payment-module:/var/www/html/app/code/BeGateway/BeGateway:delegated
+### Workaround to improve performance on Mac.
 
-See workaround to improve performance on Mac.
+1. Remove these lines on `docker-compose.dev.mac.yml`
+    
+    ```
+        - ./app:/var/www/html/app:delegated
+        - ./.git:/var/www/html/.git:delegated
+        - ./.github:/var/www/html/.github:delegated
+        - ./dev:/var/www/html/dev:delegated
+        - ./generated:/var/www/html/generated:delegated
+        - ./pub:/var/www/html/pub:delegated
+        - ./var:/var/www/html/var:delegated
+    ```
+    
+1. Remove these lines on `docker-compose.yml`
+    
+    ```
+        - ../.composer:/var/www/html/var/composer_home:delegated
+    ```
+ 
+2. Sync `app` using `unison` container. Add this in `docker-compose.dev.mac.yml`
+     
+    ```
+    unison:
+      volumes:
+        - ./app:/sync/app
+    ```
 
-### Configuration
+3. Mirror not synced folders before executing composer the first time
+
+    ```
+   	dockergento start
+	   dockergento mirror-host app dev generated pub var
+	   ```
+
+4. Start unison watcher to sync module files between host and container.
+
+	   ```
+	   dockergento watch app/code/BeGateway
+	   ```
 
 # Модуль оплаты beGateway для Magento 2 CE
 
