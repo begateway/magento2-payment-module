@@ -22,26 +22,30 @@ namespace BeGateway\BeGateway\Model\Config\Source\Method\Checkout;
 use \BeGateway\BeGateway\Helper\Data as DataHelper;
 
 /**
- * Checkout Transaction Types Model Source
- * Class TransactionType
+ * Checkout Payment Method Types Model Source
+ * Class PaymentMethodType
  * @package BeGateway\BeGateway\Model\Config\Source\Method\Checkout
  */
-class TransactionType implements \Magento\Framework\Option\ArrayInterface
+class PaymentMethodType implements \Magento\Framework\Option\ArrayInterface
 {
     /**
-     * Builds the options for the Select control in the Admin Zone
+     * Builds the options for the MultiSelect control in the Admin Zone
      * @return array
      */
     public function toOptionArray()
     {
         return [
             [
-                'value' => DataHelper::PAYMENT,
-                'label' => __('Payment'),
+                'value' => DataHelper::CREDIT_CARD,
+                'label' => __('Bankcard'),
             ],
             [
-                'value' => DataHelper::AUTHORIZE,
-                'label' => __('Authorize'),
+                'value' => DataHelper::CREDIT_CARD_HALVA,
+                'label' => __('Halva bankcard'),
+            ],
+            [
+                'value' => DataHelper::ERIP,
+                'label' => __('ERIP'),
             ]
         ];
     }

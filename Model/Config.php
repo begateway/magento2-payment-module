@@ -279,6 +279,22 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
     }
 
     /**
+     * Get Method Available Payment Method Types
+     * @return array
+     */
+    public function getPaymentMethodTypes()
+    {
+        return
+            array_map(
+                'trim',
+                explode(
+                    ',',
+                    $this->getValue('payment_method_types')
+                )
+            );
+    }
+
+    /**
      * Get Method New Order Status
      * @return null|string
      */

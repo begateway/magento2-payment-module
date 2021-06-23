@@ -64,10 +64,9 @@ GNU General Public License for more details.
                 <field id="active">1</field>
             </depends>
         </field>
-        <field id="transaction_types" translate="label comment tooltip" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-            <label>Transaction Types</label>
-            <comment>Select the transaction types that must be attempted during the customer's Checkout session.</comment>
-            <tooltip>The first transaction type that is available will be selected by the gateway.</tooltip>
+        <field id="transaction_types" translate="label comment" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Transaction Type</label>
+            <comment>Select a transaction type that must be attempted during the customer's Checkout session.</comment>
             <config_path>payment/begateway_direct/transaction_types</config_path>
             <source_model>BeGateway\BeGateway\Model\Config\Source\Method\Direct\TransactionType</source_model>
             <validate>required-entry</validate>
