@@ -181,10 +181,10 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->setFailUrl($data['urls']['return_failure']);
       $transaction->setCancelUrl($data['urls']['return_cancel']);
 
-      $payment_methods = $this->getPaymentMethodTypes();
+      $payment_methods = $this->getCheckoutPaymentMethodTypes();
       $helper = $this->getModuleHelper();
 
-      $trx_type = $this->getTransactionTypes();
+      $trx_type = $this->getCheckoutTransactionTypes();
 
       if ($trx_type == $helper::AUTHORIZE) {
         $transaction->setAuthorizationTransactionType();
