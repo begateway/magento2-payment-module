@@ -100,17 +100,69 @@ If you setup the module with default values, you can use the test data to make a
 
 Use the following test card to make successful test payment:
 
-  * Card number: 4200000000000000
-  * Name on card: JOHN DOE
-  * Card expiry date: 01/30
-  * CVC: 123
+  * Card number: `4200000000000000`
+  * Name on card: `JOHN DOE`
+  * Card expiry date: `01/30`
+  * CVC: `123`
 
 Use the following test card to make failed test payment:
 
-  * Card number: 4005550000000019
-  * Name on card: JOHN DOE
-  * Card expiry date: 01/30
-  * CVC: 123
+  * Card number: `4005550000000019`
+  * Name on card: `JOHN DOE`
+  * Card expiry date: `01/30`
+  * CVC: `123`
+
+## Development
+
+Clone and install `dockergento` client tool https://github.com/begateway/magento2-dockergento
+
+Clone and install Magento from Github https://github.com/magento/magento2 to the directory `magento2` and then run commands as follows
+
+    export COMPOSE_HTTP_TIMEOUT=180
+    cd magento2
+
+    # feel free to switch to needed Magento version
+    # e.g. switch to Magento 2.3
+    git checkout 2.3
+
+    dockergento setup
+    dockergento composer config repositories.0 composer https://repo.magento.com
+    dockergento composer install
+
+    dockergento magento setup:install \
+      --db-host=db \
+      --db-name=magento \
+      --db-user=magento \
+      --db-password=magento \
+      --base-url=http://127.0.0.1/ \
+      --admin-firstname=John \
+      --admin-lastname=Smith \
+      --admin-email=admin@ecomcharge.com \
+      --admin-user=admin \
+      --backend-frontname=admin \
+      --admin-password=password123 \
+      --language=ru_RU \
+      --currency=USD \
+      --timezone=UTC \
+      --use-rewrites=1
+
+    dockergento magento deploy:mode:set developer
+    dockergento composer require begateway/begateway-api-php 4.2.1
+
+    # install sample data
+    dockergento magento sampledata:deploy
+
+    # install module
+    dockergento magento module:enable BeGateway_BeGateway
+
+    dockergento magento setup:upgrade
+
+
+    - ../begateway-shopping-carts/magento2-payment-module:/var/www/html/app/code/BeGateway/BeGateway:delegated
+
+See workaround to improve performance on Mac.
+
+### Configuration
 
 # Модуль оплаты beGateway для Magento 2 CE
 
