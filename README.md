@@ -202,15 +202,15 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
 3. Mirror not synced folders before executing composer the first time
 
     ```
-   	dockergento start
-	   dockergento mirror-host app dev generated pub var
-	   ```
+    dockergento start
+    dockergento mirror-host app dev generated pub var
+    ```
 
 4. Start unison watcher to sync module files between host and container.
 
-	   ```
-	   dockergento watch app/code/BeGateway
-	   ```
+    ```
+    dockergento watch app/code/BeGateway
+    ```
 
 # Модуль оплаты beGateway для Magento 2 CE
 
