@@ -173,7 +173,6 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->customer->setPhone(strval($data['order']['billing']->getTelephone()));
 
       $notification_url = $data['urls']['notify'];
-      $notification_url = str_replace('carts.local', 'webhook.begateway.com:8443', $notification_url);
       $transaction->setNotificationUrl($notification_url);
 
       $transaction->setSuccessUrl($data['urls']['return_success']);
