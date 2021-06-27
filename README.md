@@ -8,7 +8,6 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
 
   * Magento 2 Community Edition 2.x (Tested up to __2.2.11__)
   * [BeGateway PHP API library ](https://github.com/begateway/begateway-api-php) - (Integrated in Module)
-  * PCI DSS certified server in order to use ```beGateway Direct```
 
 *Note:* this module has been tested only with Magento 2 __Community Edition__, it may not work as intended with Magento 2 __Enterprise Edition__
 
@@ -87,21 +86,8 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
   * Login inside the __Admin Panel__ and go to ```Stores``` -> ```Configuration``` -> ```Sales``` -> ```Payment Methods```
   * If the Payment Module Panel ```beGateway``` is not visible in the list of available Payment Methods,
   go to  ```System``` -> ```Cache Management``` and clear Magento Cache by clicking on ```Flush Magento Cache```
-  * Go back to ```Payment Methods``` and click the button ```Configure``` under the payment method ```beGateway Checkout``` or ```beGateway Direct``` to expand the available settings
+  * Go back to ```Payment Methods``` and click the button ```Configure``` under the payment method ```beGateway Checkout``` to expand the available settings
   * Set ```Enabled``` to ```Yes```, set the correct credentials, select your prefered transaction types and additional settings and click ```Save config```
-
-## Configure Magento over secured HTTPS Connection
-
-This configuration is needed for ```beGateway Direct``` Method to be usable.
-
-Steps:
-
-  * Ensure you have installed a valid SSL Certificate on your Web Server & you have configured your Virtual Host correctly.
-  * Login to Magento 2 Admin Panel
-  * Navigate to ```Stores``` -> ```Configuration``` -> ```General``` -> ```Web```
-  * Expand Tab ```Base URLs (Secure)``` and set ```Use Secure URLs on Storefront``` and ```Use Secure URLs in Admin``` to ```Yes```
-  * Set your ```Secure Base URL``` and click ```Save Config```
-  * It is recommended to add a **Rewrite Rule** from ```http``` to ```https``` or to configure a **Permanent Redirect** to ```https``` in your virtual host
 
 ## Test data
 
@@ -110,7 +96,6 @@ If you setup the module with default values, you can use the test data to make a
   * Shop Id ```361```
   * Shop Secret Key ```b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d```
   * Checkout Domain ```checkout.begateway.com```
-  * Gateway Domain ```demo-gateway.begateway.com```
   * Enable test mode ``Yes``
 
 ### Test card details
@@ -137,7 +122,6 @@ Use the following test card to make failed test payment:
 
   * Magento 2 Community Edition 2.x (тестировалось на версиях до __2.2.11__)
   * [BeGateway PHP API библиотека](https://github.com/beGateway/begateway-api-php) - (поставляется с модулем)
-  * PCI DSS сертифицированный сервер, чтобы принимать платежи через ```beGateway Direct```
 
 *Примечание:* этот модуль тестировался только с Magento 2 __Community Edition__ и может работать не стабильно с Magento 2 __Enterprise Edition__
 
@@ -214,21 +198,8 @@ Use the following test card to make failed test payment:
 
   * Войдите в личный кабинет администратора и перейдите в ```Магазины``` -> ```Конфигурация``` -> ```Продажи``` -> ```Методы оплаты```
   * Если панель модуля оплаты ```beGateway``` не видна в списке доступных методов оплаты, то перейдите в ```Система``` -> ```Управление кэшем``` и очистите Magento кэш, нажав ```Очистить кэш Magento```
-  * Вернитесь назад в ```Методы оплаты``` и нажмите кнопку ```Настроить``` под способом оплаты ```beGateway Checkout``` или ```beGateway Direct```, чтобы раскрыть доступные настройки
+  * Вернитесь назад в ```Методы оплаты``` и нажмите кнопку ```Настроить``` под способом оплаты ```beGateway Checkout```, чтобы раскрыть доступные настройки
   * Выберите ```Да``` в выпадающем списке параметра ```Включено```, задайте данные вашего магазина, выберите тип операции, доступные способы оплаты и прочие настройки. Нажмите ```Сохранить конфигурацию```, чтобы их сохранить
-
-## Настройть Magento для работы через шифрованное соединение
-
-Данная настройка необходима для использования способа оплаты ```beGateway Direct```.
-
-Шаги (названия параметров могут отличаться из-за различных пакетов русификации Magento):
-
-  * Убедитесь, что вы установили рабочий SSL сертификат на вашем веб-сервере и произвели необходимые настройки.
-  * Зайдите в панель администратора Magento 2
-  * Перейдите в ```Магазины``` -> ```Конфигурация``` -> ```Основное``` -> ```Веб```
-  * Раскройте закладку ```Базовые URLs (безопасные)``` и установите ```Использовать защищённые URL в магазине``` и ```Использовать защищённые URL в панели администрирования``` в ```Да```
-  * Задайте ваш ```Базовый защищённый URL``` и нажмите ```Сохранить конфигурацию```
-  * Рекомендуем добавить **Rewrite Rule** с ```http``` на ```https``` или настроить **Permanent Redirect** на ```https``` в настройках вашего веб-сервера
 
 ## Тестовые данные
 
@@ -237,7 +208,6 @@ Use the following test card to make failed test payment:
   * Id магазина ```361```
   * Секретный ключ магазина ```b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d```
   * Домен страницы оплаты ```checkout.begateway.com```
-  * Домен платежного шлюза ```demo-gateway.begateway.com```
   * Включить тестовый режим ``Да``
 
 ### Тестовая карта
