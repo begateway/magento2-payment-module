@@ -6,7 +6,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
 
 ## Requirements
 
-  * Magento 2 Community Edition 2.x (Tested up to __2.2.11__)
+  * Magento 2 Community Edition 2.x (Tested up to 2.1.18 / 2.2.11)
   * [BeGateway PHP API library ](https://github.com/begateway/begateway-api-php) - (Integrated in Module)
 
 *Note:* this module has been tested only with Magento 2 __Community Edition__, it may not work as intended with Magento 2 __Enterprise Edition__
@@ -18,7 +18,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
   * Install Payment Module
 
     ```sh
-    $ composer require begateway/magento2-payment-module
+    $ composer require begateway/magento2-payment-module 2.2.0
     ```
 
   * Enable Payment Module
@@ -120,7 +120,7 @@ Use the following test card to make failed test payment:
 
 ## Требования
 
-  * Magento 2 Community Edition 2.x (тестировалось на версиях до __2.2.11__)
+  * Magento 2 Community Edition 2.x (тестировалось на версиях 2.1.18 / 2.2.11)
   * [BeGateway PHP API библиотека](https://github.com/beGateway/begateway-api-php) - (поставляется с модулем)
 
 *Примечание:* этот модуль тестировался только с Magento 2 __Community Edition__ и может работать не стабильно с Magento 2 __Enterprise Edition__
@@ -132,7 +132,7 @@ Use the following test card to make failed test payment:
   * Установите модуль оплаты
 
     ```sh
-    $ composer require begateway/magento2-payment-module
+    $ composer require begateway/magento2-payment-module 2.2.0
     ```
 
   * Включите модуль оплаты
