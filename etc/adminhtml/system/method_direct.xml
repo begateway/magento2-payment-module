@@ -58,7 +58,7 @@ GNU General Public License for more details.
             <label>Gateway Domain</label>
             <comment>Your payment service provider gateway domain e.g. gateway.example.com</comment>
             <config_path>payment/begateway_direct/domain_gateway</config_path>
-            <validate>required-entry validate-alphanum</validate>
+            <validate>required-entry</validate>
             <can_be_empty>0</can_be_empty>
             <depends>
                 <field id="active">1</field>

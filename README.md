@@ -6,7 +6,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
 
 ## Requirements
 
-  * Magento 2 Community Edition 2.x (Tested up to __2.3.7__)
+  * Magento 2 Community Edition 2.x (Tested up to __2.2.11__)
   * [BeGateway PHP API library ](https://github.com/begateway/begateway-api-php) - (Integrated in Module)
   * PCI DSS certified server in order to use ```beGateway Direct```
 
@@ -135,7 +135,7 @@ Use the following test card to make failed test payment:
 
 ## Требования
 
-  * Magento 2 Community Edition 2.x (тестировалось на версиях до __2.3.7__)
+  * Magento 2 Community Edition 2.x (тестировалось на версиях до __2.2.11__)
   * [BeGateway PHP API библиотека](https://github.com/beGateway/begateway-api-php) - (поставляется с модулем)
   * PCI DSS сертифицированный сервер, чтобы принимать платежи через ```beGateway Direct```
 
@@ -207,7 +207,7 @@ Use the following test card to make failed test payment:
   * Создайте статичный контент Magento (__выполните если необходимо__)
 
     ```sh
-    $ php bin/magento setup:static-content:deploy
+    $ php bin/magento setup:static-content:deploy en_GB ru_RU
     ```   
 
 ## Настройка

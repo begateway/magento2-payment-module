@@ -13,8 +13,8 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
     git clone https://github.com/begateway/magento2-payment-module app/code/BeGateway/BeGateway
 
     # feel free to switch to needed Magento version
-    # e.g. switch to Magento 2.3
-    git checkout 2.3
+    # e.g. switch to Magento 2.2
+    git checkout 2.2
 
     dockergento setup
 
@@ -94,3 +94,8 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
     ```
     dockergento watch app/code/BeGateway
     ```
+
+# Frontend login
+
+Username: roni_cost@example.com
+Password: roni_cost3@example.com
