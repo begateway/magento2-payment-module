@@ -27,6 +27,7 @@ namespace BeGateway\BeGateway\Helper;
  */
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
+    const CODE = 'BeGateway_BeGateway';
     const SECURE_TRANSACTION_TYPE_SUFFIX = '3-D';
 
     const ADDITIONAL_INFO_KEY_STATUS           = 'status';
@@ -82,6 +83,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_regionFactory;
 
     /**
+     * @var \Magento\Framework\Module\ModuleListInterface
+     */
+    protected $_moduleList;
+
+    /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -89,6 +95,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \BeGateway\BeGateway\Model\ConfigFactory $configFactory,
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
+     * @param \Magento\Framework\Module\ModuleListInterface $moduleList
      */
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
@@ -97,7 +104,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \BeGateway\BeGateway\Model\ConfigFactory $configFactory,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        \Magento\Directory\Model\RegionFactory $regionFactory
+        \Magento\Directory\Model\RegionFactory $regionFactory,
+        \Magento\Framework\Module\ModuleListInterface $moduleList
     ) {
         $this->_objectManager = $objectManager;
         $this->_paymentData   = $paymentData;
@@ -105,6 +113,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_configFactory = $configFactory;
         $this->_localeResolver = $localeResolver;
         $this->_regionFactory = $regionFactory;
+        $this->_moduleList = $moduleList;
 
         $this->_scopeConfig   = $context->getScopeConfig();
 
@@ -182,6 +191,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getRegionFactory()
     {
         return $this->_regionFactory;
+    }
+
+    /**
+     * Get an Magento version
+     * @return string
+     */
+    public function getMagentoVersion()
+    {
+      return $this->getObjectManager()
+             ->get('Magento\Framework\App\ProductMetadataInterface')
+             ->getVersion();
+    }
+
+    /**
+     * Get the module version
+     * @return string
+     */
+    public function getVersion()
+    {
+      return $this->_moduleList
+             ->getOne(self::CODE)['setup_version'];
     }
 
     /**

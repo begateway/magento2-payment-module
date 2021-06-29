@@ -155,8 +155,6 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction = new \BeGateway\GetPaymentToken;
       $helper = $this->getModuleHelper();
 
-      $l = get_class($data['order']['billing']);
-      $this->_addDebugData('billing_address', $l);
       $transaction->money->setAmount($data['order']['amount']);
       $transaction->money->setCurrency($data['order']['currency']);
       $transaction->setDescription($data['order']['description']);
@@ -217,6 +215,11 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         ));
         $transaction->addPaymentMethod($erip);
       }
+
+      $transaction->additional_data->setMeta(array(
+        'platform_data' => 'Magento v' . $helper->getMagentoVersion(),
+        'integration_data' => 'BeGateway Magento 2 Module v' . $helper->getVersion()
+      ));
 
       $this->_addDebugData('token_request', $transaction);
       $response = $transaction->submit();
