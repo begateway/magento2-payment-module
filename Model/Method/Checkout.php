@@ -153,7 +153,10 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
     protected function checkout($data)
     {
       $transaction = new \BeGateway\GetPaymentToken;
+      $helper = $this->getModuleHelper();
 
+      $l = get_class($data['order']['billing']);
+      $this->_addDebugData('billing_address', $l);
       $transaction->money->setAmount($data['order']['amount']);
       $transaction->money->setCurrency($data['order']['currency']);
       $transaction->setDescription($data['order']['description']);
@@ -167,8 +170,11 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->customer->setZip($data['order']['billing']->getPostcode());
       $transaction->setTestMode(intval($this->getConfigHelper()->getTestMode()) == 1);
 
-      if (in_array(strval($data['order']['billing']->getCountryId()), array('US', 'CA')))
-        $transaction->customer->setState(strval($data['order']['billing']->getRegionCode()));
+      if (in_array(strval($data['order']['billing']->getCountryId()), array('US', 'CA'))) {
+        $billingAddress = $data['order']['billing']->getData();
+        $region = $helper->getRegionFactory()->create()->load($billingAddress['region_id']);
+        $transaction->customer->setState($region->getCode());
+      }
 
       if (!empty(strval($data['order']['customer']['email']))) {
         $transaction->customer->setEmail(strval($data['order']['customer']['email']));
@@ -185,7 +191,6 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->setCancelUrl($data['urls']['return_cancel']);
 
       $payment_methods = $this->getCheckoutPaymentMethodTypes();
-      $helper = $this->getModuleHelper();
 
       $trx_type = $this->getCheckoutTransactionTypes();
 
@@ -213,10 +218,10 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         $transaction->addPaymentMethod($erip);
       }
 
-      $this->_addDebugData('token_request', var_export($transaction, true));
+      $this->_addDebugData('token_request', $transaction);
       $response = $transaction->submit();
 
-      $this->_addDebugData('token_response', var_export($response, true));
+      $this->_addDebugData('token_response', $response);
       return $response;
     }
 

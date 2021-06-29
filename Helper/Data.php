@@ -77,12 +77,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_localeResolver;
 
     /**
+     * @var \Magento\Directory\Model\RegionFactory
+     */
+    protected $_regionFactory;
+
+    /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager,
      * @param \BeGateway\BeGateway\Model\ConfigFactory $configFactory,
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Directory\Model\RegionFactory $regionFactory
      */
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
@@ -90,13 +96,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \BeGateway\BeGateway\Model\ConfigFactory $configFactory,
-        \Magento\Framework\Locale\ResolverInterface $localeResolver
+        \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Directory\Model\RegionFactory $regionFactory
     ) {
         $this->_objectManager = $objectManager;
         $this->_paymentData   = $paymentData;
         $this->_storeManager  = $storeManager;
         $this->_configFactory = $configFactory;
         $this->_localeResolver = $localeResolver;
+        $this->_regionFactory = $regionFactory;
 
         $this->_scopeConfig   = $context->getScopeConfig();
 
@@ -165,6 +173,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function getLocaleResolver()
     {
         return $this->_localeResolver;
+    }
+
+    /**
+     * Get an Instance of the Magento RegionFactory Object
+     * @return \Magento\Directory\Model\RegionFactory
+     */
+    public function getRegionFactory()
+    {
+        return $this->_regionFactory;
     }
 
     /**
