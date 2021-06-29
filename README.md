@@ -96,6 +96,7 @@ If you setup the module with default values, you can use the test data to make a
   * Shop Id ```361```
   * Shop Secret Key ```b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d```
   * Checkout Domain ```checkout.begateway.com```
+  * Gateway Domain ```demo-gateway.begateway.com```
   * Enable test mode ``Yes``
 
 ### Test card details
@@ -208,6 +209,7 @@ Use the following test card to make failed test payment:
   * Id магазина ```361```
   * Секретный ключ магазина ```b8647b68898b084b836474ed8d61ffe117c9a01168d867f24953b776ddcb134d```
   * Домен страницы оплаты ```checkout.begateway.com```
+  * Домен платежного шлюза ```demo-gateway.begateway.com```
   * Включить тестовый режим ``Да``
 
 ### Тестовая карта
