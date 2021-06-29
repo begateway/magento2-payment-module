@@ -334,6 +334,15 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
      */
     public function getTestMode()
     {
-        return $this->getValue('test_mode');
+      return $this->getValue('test_mode');
+    }
+
+    /**
+     * Get Debug state
+     * @return bool
+     */
+    public function getDebug()
+    {
+      return (bool)$this->getValue('debug');
     }
 }

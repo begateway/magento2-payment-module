@@ -175,9 +175,9 @@ GNU General Public License for more details.
                 <field id="active">1</field>
             </depends>
         </field>
-        <field id="enable_logging" translate="label" sortOrder="110" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="debug" translate="label" sortOrder="110" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Enable debug logging</label>
-            <config_path>payment/begateway_checkout/enable_logging</config_path>
+            <config_path>payment/begateway_checkout/debug</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
             <depends>
                 <field id="active">1</field>
