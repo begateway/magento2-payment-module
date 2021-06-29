@@ -99,3 +99,11 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
 
 Username: roni_cost@example.com
 Password: roni_cost3@example.com
+
+# PHP requirements
+
+| Magento version | PHP version |
+| ----------------| ------------|
+| 2.2 | 7.1 |
+| 2.1 | 7.1 |
+| 2.0 | 7.0 |
