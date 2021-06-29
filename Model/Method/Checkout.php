@@ -27,6 +27,7 @@ namespace BeGateway\BeGateway\Model\Method;
 class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 {
     use \BeGateway\BeGateway\Model\Traits\OnlinePaymentMethod;
+    use \BeGateway\BeGateway\Model\Traits\Logger;
 
     const CODE = 'begateway_checkout';
     /**
@@ -47,7 +48,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Get Instance of the Magento Code Logger
-     * @return \Psr\Log\LoggerInterface
+     * @return \Zend\Log\Logger
      */
     protected function getLogger()
     {
@@ -103,6 +104,9 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_storeManager = $storeManager;
         $this->_checkoutSession = $checkoutSession;
         $this->_moduleHelper = $moduleHelper;
+
+        $this->_logger = $this->_initLogger();
+
         $this->_configHelper =
             $this->getModuleHelper()->getMethodConfig(
                 $this->getCode()
@@ -209,8 +213,10 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         $transaction->addPaymentMethod($erip);
       }
 
+      $this->_addDebugData('token_request', var_export($transaction, true));
       $response = $transaction->submit();
 
+      $this->_addDebugData('token_response', var_export($response, true));
       return $response;
     }
 
@@ -315,16 +321,16 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
                 $responseObject->getRedirectUrl()
             );
 
+            $this->_writeDebugData();
             return $this;
         } catch (\Exception $e) {
-            $this->getLogger()->error(
-                $e->getMessage()
-            );
+            $this->_addDebugData('exception', $e->getMessage());
 
             $this->getCheckoutSession()->setBeGatewayLastCheckoutError(
                 $e->getMessage()
             );
 
+            $this->_writeDebugData();
             $this->getModuleHelper()->maskException($e);
         }
     }
@@ -341,7 +347,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
 
-        $this->getLogger()->debug('Capture transaction for order #' . $order->getIncrementId());
+        $this->_addDebugData('capture_process', 'Capture transaction for order #' . $order->getIncrementId());
 
         $authTransaction = $this->getModuleHelper()->lookUpAuthorizationTransaction(
             $payment
@@ -352,9 +358,8 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
                 $order->getIncrementId()
             );
 
-            $this->getLogger()->error(
-                $errorMessage
-            );
+            $this->_addDebugData('capture_error', $errorMessage);
+            $this->_writeDebugData();
 
             $this->getModuleHelper()->throwWebApiException(
                 $errorMessage
@@ -364,11 +369,11 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         try {
             $this->doCapture($payment, $amount, $authTransaction);
         } catch (\Exception $e) {
-            $this->getLogger()->error(
-                $e->getMessage()
-            );
+            $this->_addDebugData('exception', $e->getMessage());
+            $this->_writeDebugData();
             $this->getModuleHelper()->maskException($e);
         }
+        $this->_writeDebugData();
 
         return $this;
     }
@@ -386,7 +391,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
 
-        $this->getLogger()->debug('Refund transaction for order #' . $order->getIncrementId());
+        $this->_addDebugData('refund_process', 'Refund transaction for order #' . $order->getIncrementId());
 
         $captureTransaction = $this->getModuleHelper()->lookUpCaptureTransaction(
             $payment
@@ -397,9 +402,8 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
                 $order->getIncrementId()
             );
 
-            $this->getLogger()->error(
-                $errorMessage
-            );
+            $this->_addDebugData('refund_error', $errorMessage);
+            $this->_writeDebugData();
 
             $this->getMessageManager()->addError($errorMessage);
 
@@ -411,9 +415,8 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         try {
             $this->doRefund($payment, $amount, $captureTransaction);
         } catch (\Exception $e) {
-            $this->getLogger()->error(
-                $e->getMessage()
-            );
+            $this->_addDebugData('exception', $e->getMessage());
+            $this->_writeDebugData();
 
             $this->getMessageManager()->addError(
                 $e->getMessage()
@@ -421,6 +424,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 
             $this->getModuleHelper()->maskException($e);
         }
+        $this->_writeDebugData();
 
         return $this;
     }
@@ -449,7 +453,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 
         $order = $payment->getOrder();
 
-        $this->getLogger()->debug('Void transaction for order #' . $order->getIncrementId());
+        $this->_addDebugData('void_process', 'Void transaction for order #' . $order->getIncrementId());
 
         $referenceTransaction = $this->getModuleHelper()->lookUpVoidReferenceTransaction(
             $payment
@@ -467,19 +471,20 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
             $errorMessage = __('Void transaction for order # %1 cannot be finished (No Authorize / Capture Transaction exists)',
                             $order->getIncrementId()
             );
+            $this->_addDebugData('void_error', $errorMessage);
+            $this->_writeDebugData();
 
-            $this->getLogger()->error($errorMessage);
             $this->getModuleHelper()->throwWebApiException($errorMessage);
         }
 
         try {
             $this->doVoid($payment, $authTransaction, $referenceTransaction);
         } catch (\Exception $e) {
-            $this->getLogger()->error(
-                $e->getMessage()
-            );
+            $this->_addDebugData('exception', $e->getMessage());
+            $this->_writeDebugData();
             $this->getModuleHelper()->maskException($e);
         }
+        $this->_writeDebugData();
 
         return $this;
     }
