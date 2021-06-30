@@ -19,12 +19,16 @@
 
 namespace BeGateway\BeGateway\Controller\Ipn;
 
+use Magento\Framework\App\CsrfAwareActionInterface;
+use Magento\Framework\App\Request\InvalidRequestException;
+use Magento\Framework\App\RequestInterface;
+
 /**
  * Unified IPN controller for all supported beGateway Payment Methods
  * Class Index
  * @package BeGateway\BeGateway\Controller\Ipn
  */
-class Index extends \BeGateway\BeGateway\Controller\AbstractAction
+class Index extends \BeGateway\BeGateway\Controller\AbstractAction implements CsrfAwareActionInterface
 {
 
     /**
@@ -53,5 +57,21 @@ class Index extends \BeGateway\BeGateway\Controller\AbstractAction
             $this->getLogger()->critical($e);
             $this->getResponse()->setHttpResponseCode(500);
         }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
     }
 }
