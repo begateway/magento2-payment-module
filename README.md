@@ -6,9 +6,8 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
 
 ## Requirements
 
-  * Magento 2 Community Edition 2.x (Tested up to __2.1.3__)
+  * Magento 2 Community Edition 2.x (Tested up to 2.0.18 / 2.1.18 / 2.2.11)
   * [BeGateway PHP API library ](https://github.com/begateway/begateway-api-php) - (Integrated in Module)
-  * PCI DSS certified server in order to use ```beGateway Direct```
 
 *Note:* this module has been tested only with Magento 2 __Community Edition__, it may not work as intended with Magento 2 __Enterprise Edition__
 
@@ -16,28 +15,39 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
 
   * Install __Composer__ - [Composer Download Instructions](https://getcomposer.org/doc/00-intro.md)
 
-  * Install __beGateway Gateway__
+  * Install Payment Module
 
-    * Install Payment Module
+    ```sh
+    $ composer require begateway/magento2-payment-module 2.2.0
+    ```
 
-        ```sh
-        $ composer require begateway/magento2-payment-module
-        ```
+  * Enable Payment Module
 
-    * Enable Payment Module
+    ```sh
+    $ php bin/magento module:enable BeGateway_BeGateway
+    ```
 
-        ```sh
-        $ php bin/magento module:enable BeGateway_BeGateway
-        ```
+    ```sh
+    $ php bin/magento setup:upgrade
+    ```
 
-        ```sh
-        $ php bin/magento setup:upgrade
-        ```
-    * Deploy Magento Static Content (__Execute If needed__)
+  * If you are not running your Magento installation in compiled mode, skip to the next step. If you are running in compiled mode, complete this step:
 
-        ```sh
-        $ php bin/magento setup:static-content:deploy
-        ```    
+    ```sh
+    $ php bin/magento setup:di:compile
+    ```
+
+  * Deploy Magento Static Content (__Execute If needed__)
+
+    ```sh
+    $ php bin/magento setup:static-content:deploy en_GB en_US
+    ```
+
+    To see the full list of [ISO-636](http://www.loc.gov/standards/iso639-2/php/code_list.php) language codes, run:
+
+    ```sh
+    $ php magento info:language:list  
+    ```
 
 ## Installation (manual)
 
@@ -46,7 +56,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
   * Install beGateway PHP API Library
 
     ```sh
-    $ composer require begateway/begateway-api-php
+    $ composer require begateway/begateway-api-php 4.4.3
     ```
 
   * Enable Payment Module
@@ -62,29 +72,22 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
   * Deploy Magento Static Content (__Execute If needed__)
 
     ```sh
-    $ php bin/magento setup:static-content:deploy
+    $ php bin/magento setup:static-content:deploy en_GB en_US
     ```   
+
+    To see the full list of [ISO-636](http://www.loc.gov/standards/iso639-2/php/code_list.php) language codes, run:
+
+    ```sh
+    $ php magento info:language:list  
+    ```
 
 ## Configuration
 
   * Login inside the __Admin Panel__ and go to ```Stores``` -> ```Configuration``` -> ```Sales``` -> ```Payment Methods```
   * If the Payment Module Panel ```beGateway``` is not visible in the list of available Payment Methods,
   go to  ```System``` -> ```Cache Management``` and clear Magento Cache by clicking on ```Flush Magento Cache```
-  * Go back to ```Payment Methods``` and click the button ```Configure``` under the payment method ```beGateway Checkout``` or ```beGateway Direct``` to expand the available settings
+  * Go back to ```Payment Methods``` and click the button ```Configure``` under the payment method ```beGateway Checkout``` to expand the available settings
   * Set ```Enabled``` to ```Yes```, set the correct credentials, select your prefered transaction types and additional settings and click ```Save config```
-
-## Configure Magento over secured HTTPS Connection
-
-This configuration is needed for ```beGateway Direct``` Method to be usable.
-
-Steps:
-
-  * Ensure you have installed a valid SSL Certificate on your Web Server & you have configured your Virtual Host correctly.
-  * Login to Magento 2 Admin Panel
-  * Navigate to ```Stores``` -> ```Configuration``` -> ```General``` -> ```Web```
-  * Expand Tab ```Base URLs (Secure)``` and set ```Use Secure URLs on Storefront``` and ```Use Secure URLs in Admin``` to ```Yes```
-  * Set your ```Secure Base URL``` and click ```Save Config```
-  * It is recommended to add a **Rewrite Rule** from ```http``` to ```https``` or to configure a **Permanent Redirect** to ```https``` in your virtual host
 
 ## Test data
 
@@ -100,17 +103,17 @@ If you setup the module with default values, you can use the test data to make a
 
 Use the following test card to make successful test payment:
 
-  * Card number: 4200000000000000
-  * Name on card: JOHN DOE
-  * Card expiry date: 01/30
-  * CVC: 123
+  * Card number: `4200000000000000`
+  * Name on card: `JOHN DOE`
+  * Card expiry date: `01/30`
+  * CVC: `123`
 
 Use the following test card to make failed test payment:
 
-  * Card number: 4005550000000019
-  * Name on card: JOHN DOE
-  * Card expiry date: 01/30
-  * CVC: 123
+  * Card number: `4005550000000019`
+  * Name on card: `JOHN DOE`
+  * Card expiry date: `01/30`
+  * CVC: `123`
 
 # Модуль оплаты beGateway для Magento 2 CE
 
@@ -118,9 +121,8 @@ Use the following test card to make failed test payment:
 
 ## Требования
 
-  * Magento 2 Community Edition 2.x (тестировалось на версиях до __2.1.3__)
+  * Magento 2 Community Edition 2.x (тестировалось на версиях 2.0.18 / 2.1.18 / 2.2.11)
   * [BeGateway PHP API библиотека](https://github.com/beGateway/begateway-api-php) - (поставляется с модулем)
-  * PCI DSS сертифицированный сервер, чтобы принимать платежи через ```beGateway Direct```
 
 *Примечание:* этот модуль тестировался только с Magento 2 __Community Edition__ и может работать не стабильно с Magento 2 __Enterprise Edition__
 
@@ -128,29 +130,39 @@ Use the following test card to make failed test payment:
 
   * Установите __Composer__ - [инструкция по установке Composer](https://getcomposer.org/doc/00-intro.md)
 
-  * Установите __beGateway Gateway__
+  * Установите модуль оплаты
 
-    * Установите модуль оплаты
+    ```sh
+    $ composer require begateway/magento2-payment-module 2.2.0
+    ```
 
-        ```sh
-        $ composer require begateway/begateway-api-php 4.2.1
-        ```
+  * Включите модуль оплаты
 
-    * Включите модуль оплаты
+    ```sh
+    $ php bin/magento module:enable BeGateway_BeGateway
+    ```
 
-        ```sh
-        $ php bin/magento module:enable BeGateway_BeGateway
-        ```
+    ```sh
+    $ php bin/magento setup:upgrade
+    ```
 
-        ```sh
-        $ php bin/magento setup:upgrade
-        ```
+  * Пропустите этот шаг, если ваша версия Magento не запускается в режиме компиляции. В противном случае выполните эту команду:
 
-    * Создайте статичный контент Magento (__выполните если необходимо__)
+    ```sh
+    $ php bin/magento setup:di:compile
+    ```
 
-        ```sh
-        $ php bin/magento setup:static-content:deploy
-        ```    
+  * Создайте статичный контент Magento (__выполните если необходимо__)
+
+    ```sh
+    $ php bin/magento setup:static-content:deploy en_GB ru_RU
+    ```    
+
+    Чтобы получить полный список [ISO-636](http://www.loc.gov/standards/iso639-2/php/code_list.php) кодов языковых локалей, поддерживаемых Magento, выполните:
+
+    ```sh
+    $ php magento info:language:list  
+    ```
 
 ## Установка (ручная)
 
@@ -159,7 +171,7 @@ Use the following test card to make failed test payment:
   * Установите beGateway PHP API библиотеку
 
     ```sh
-    $ composer require begateway/begateway-api-php 4.2.1
+    $ composer require begateway/begateway-api-php 4.4.3
     ```
 
   * Включить модуль оплаты
@@ -171,32 +183,24 @@ Use the following test card to make failed test payment:
     ```sh
     $ php bin/magento setup:upgrade
     ```
+  * Пропустите этот шаг, если ваша версия Magento не запускается в режиме компиляции. В противном случае выполните эту команду:
+
+    ```sh
+    $ php bin/magento setup:di:compile
+    ```
 
   * Создайте статичный контент Magento (__выполните если необходимо__)
 
     ```sh
-    $ php bin/magento setup:static-content:deploy
+    $ php bin/magento setup:static-content:deploy en_GB ru_RU
     ```   
 
 ## Настройка
 
   * Войдите в личный кабинет администратора и перейдите в ```Магазины``` -> ```Конфигурация``` -> ```Продажи``` -> ```Методы оплаты```
   * Если панель модуля оплаты ```beGateway``` не видна в списке доступных методов оплаты, то перейдите в ```Система``` -> ```Управление кэшем``` и очистите Magento кэш, нажав ```Очистить кэш Magento```
-  * Вернитесь назад в ```Методы оплаты``` и нажмите кнопку ```Настроить``` под способом оплаты ```beGateway Checkout``` или ```beGateway Direct```, чтобы раскрыть доступные настройки
+  * Вернитесь назад в ```Методы оплаты``` и нажмите кнопку ```Настроить``` под способом оплаты ```beGateway Checkout```, чтобы раскрыть доступные настройки
   * Выберите ```Да``` в выпадающем списке параметра ```Включено```, задайте данные вашего магазина, выберите тип операции, доступные способы оплаты и прочие настройки. Нажмите ```Сохранить конфигурацию```, чтобы их сохранить
-
-## Настройть Magento для работы через шифрованное соединение
-
-Данная настройка необходима для использования способа оплаты ```beGateway Direct```.
-
-Шаги (названия параметров могут отличаться из-за различных пакетов русификации Magento):
-
-  * Убедитесь, что вы установили рабочий SSL сертификат на вашем веб-сервере и произвели необходимые настройки.
-  * Зайдите в панель администратора Magento 2
-  * Перейдите в ```Магазины``` -> ```Конфигурация``` -> ```Основное``` -> ```Веб```
-  * Раскройте закладку ```Базовые URLs (безопасные)``` и установите ```Использовать защищённые URL в магазине``` и ```Использовать защищённые URL в панели администрирования``` в ```Да```
-  * Задайте ваш ```Базовый защищённый URL``` и нажмите ```Сохранить конфигурацию```
-  * Рекомендуем добавить **Rewrite Rule** с ```http``` на ```https``` или настроить **Permanent Redirect** на ```https``` в настройках вашего веб-сервера
 
 ## Тестовые данные
 

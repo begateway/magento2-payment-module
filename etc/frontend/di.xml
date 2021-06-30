@@ -22,7 +22,6 @@ GNU General Public License for more details.
         <arguments>
             <argument name="methodCodes" xsi:type="array">
                 <item name="begateway_checkout" xsi:type="const">BeGateway\BeGateway\Model\Method\Checkout::CODE</item>
-                <item name="begateway_direct" xsi:type="const">BeGateway\BeGateway\Model\Method\Direct::CODE</item>
             </argument>
         </arguments>
     </virtualType>

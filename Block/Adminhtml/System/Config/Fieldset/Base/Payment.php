@@ -20,7 +20,7 @@
 namespace BeGateway\BeGateway\Block\Adminhtml\System\Config\Fieldset\Base;
 
 /**
- * Base Renderer for beGateway Checkout & Direct Panel in System Configuration
+ * Base Renderer for beGateway Checkout Panel in System Configuration
  *
  * Class Payment
  * @package BeGateway\BeGateway\Block\Adminhtml\System\Config\Fieldset\Base

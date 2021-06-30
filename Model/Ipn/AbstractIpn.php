@@ -27,13 +27,14 @@ namespace BeGateway\BeGateway\Model\Ipn;
  */
 abstract class AbstractIpn
 {
+    use \BeGateway\BeGateway\Model\Traits\Logger;
 
     /**
      * @var \Magento\Framework\App\Action\Context
      */
     private $_context;
     /**
-     * @var \Psr\Log\LoggerInterface
+     * @var \Zend\Log\Logger
      */
     private $_logger;
     /**
@@ -95,7 +96,7 @@ abstract class AbstractIpn
         $this->_orderFactory = $orderFactory;
         $this->_orderSender = $orderSender;
         $this->_creditMemoSender = $creditMemoSender;
-        $this->_logger = $logger;
+        $this->_logger = $this->_initLogger();
         $this->_moduleHelper = $moduleHelper;
         $this->_configHelper =
             $this->_moduleHelper->getMethodConfig(

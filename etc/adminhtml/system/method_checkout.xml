@@ -74,10 +74,9 @@ GNU General Public License for more details.
                 <field id="active">1</field>
             </depends>
         </field>
-        <field id="transaction_types" translate="label comment tooltip" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
-            <label>Transaction Types</label>
-            <comment>Select the transaction types that must be attempted during the customer's Checkout session.</comment>
-            <tooltip>The first transaction type that is available will be selected by the gateway.</tooltip>
+        <field id="transaction_types" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Transaction Type</label>
+            <comment>Select a transaction type that must be attempted during the customer's Checkout session.</comment>
             <config_path>payment/begateway_checkout/transaction_types</config_path>
             <source_model>BeGateway\BeGateway\Model\Config\Source\Method\Checkout\TransactionType</source_model>
             <validate>required-entry</validate>
@@ -85,6 +84,16 @@ GNU General Public License for more details.
                 <field id="active">1</field>
             </depends>
             <can_be_empty>0</can_be_empty>
+        </field>
+        <field id="payment_method_types" translate="label comment" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="0">
+            <label>Payment Method Types</label>
+            <comment>Select payment methods that must be enabled during the customer's Checkout session. Customer will see only selected payment methods. If no selection, then all available payment methods will be shown.</comment>
+            <config_path>payment/begateway_checkout/payment_method_types</config_path>
+            <source_model>BeGateway\BeGateway\Model\Config\Source\Method\Checkout\PaymentMethodType</source_model>
+            <depends>
+                <field id="active">1</field>
+            </depends>
+            <can_be_empty>1</can_be_empty>
         </field>
         <field id="erip_service_no" translate="label comment" sortOrder="52" showInDefault="1" showInWebsite="1" showInStore="0">
             <label>ERIP Service Code</label>
@@ -176,9 +185,9 @@ GNU General Public License for more details.
                 <field id="active">1</field>
             </depends>
         </field>
-        <field id="enable_logging" translate="label" sortOrder="110" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+        <field id="debug" translate="label" sortOrder="110" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
             <label>Enable debug logging</label>
-            <config_path>payment/begateway_checkout/enable_logging</config_path>
+            <config_path>payment/begateway_checkout/debug</config_path>
             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
             <depends>
                 <field id="active">1</field>

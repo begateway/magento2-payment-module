@@ -279,6 +279,22 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
     }
 
     /**
+     * Get Method Available Payment Method Types
+     * @return array
+     */
+    public function getPaymentMethodTypes()
+    {
+        return
+            array_map(
+                'trim',
+                explode(
+                    ',',
+                    $this->getValue('payment_method_types')
+                )
+            );
+    }
+
+    /**
      * Get Method New Order Status
      * @return null|string
      */
@@ -318,6 +334,15 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
      */
     public function getTestMode()
     {
-        return $this->getValue('test_mode');
+      return $this->getValue('test_mode');
+    }
+
+    /**
+     * Get Debug state
+     * @return bool
+     */
+    public function getDebug()
+    {
+      return (bool)$this->getValue('debug');
     }
 }

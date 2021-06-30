@@ -29,31 +29,19 @@ use \BeGateway\BeGateway\Helper\Data as DataHelper;
 class TransactionType implements \Magento\Framework\Option\ArrayInterface
 {
     /**
-     * Builds the options for the MultiSelect control in the Admin Zone
+     * Builds the options for the Select control in the Admin Zone
      * @return array
      */
     public function toOptionArray()
     {
         return [
             [
-                'value' => DataHelper::AUTHORIZE,
-                'label' => __('Authorize'),
-            ],
-            [
                 'value' => DataHelper::PAYMENT,
                 'label' => __('Payment'),
             ],
             [
-                'value' => DataHelper::CREDIT_CARD,
-                'label' => __('Bankcard'),
-            ],
-            [
-                'value' => DataHelper::CREDIT_CARD_HALVA,
-                'label' => __('Halva bankcard'),
-            ],
-            [
-                'value' => DataHelper::ERIP,
-                'label' => __('ERIP'),
+                'value' => DataHelper::AUTHORIZE,
+                'label' => __('Authorize'),
             ]
         ];
     }

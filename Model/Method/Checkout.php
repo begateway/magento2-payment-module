@@ -27,6 +27,7 @@ namespace BeGateway\BeGateway\Model\Method;
 class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 {
     use \BeGateway\BeGateway\Model\Traits\OnlinePaymentMethod;
+    use \BeGateway\BeGateway\Model\Traits\Logger;
 
     const CODE = 'begateway_checkout';
     /**
@@ -47,7 +48,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Get Instance of the Magento Code Logger
-     * @return \Psr\Log\LoggerInterface
+     * @return \Zend\Log\Logger
      */
     protected function getLogger()
     {
@@ -103,6 +104,9 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_storeManager = $storeManager;
         $this->_checkoutSession = $checkoutSession;
         $this->_moduleHelper = $moduleHelper;
+
+        $this->_logger = $this->_initLogger();
+
         $this->_configHelper =
             $this->getModuleHelper()->getMethodConfig(
                 $this->getCode()
@@ -130,6 +134,17 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
+     * Get Available Checkout Payment Method Types
+     * @return array
+     */
+    public function getCheckoutPaymentMethodTypes()
+    {
+        $selected_types = $this->getConfigHelper()->getPaymentMethodTypes();
+
+        return $selected_types;
+    }
+
+    /**
      * Create a Web-Payment Form Instance
      * @param array $data
      * @return \stdClass
@@ -138,6 +153,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
     protected function checkout($data)
     {
       $transaction = new \BeGateway\GetPaymentToken;
+      $helper = $this->getModuleHelper();
 
       $transaction->money->setAmount($data['order']['amount']);
       $transaction->money->setCurrency($data['order']['currency']);
@@ -152,8 +168,11 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->customer->setZip($data['order']['billing']->getPostcode());
       $transaction->setTestMode(intval($this->getConfigHelper()->getTestMode()) == 1);
 
-      if (in_array(strval($data['order']['billing']->getCountryId()), array('US', 'CA')))
-        $transaction->customer->setState(strval($data['order']['billing']->getRegionCode()));
+      if (in_array(strval($data['order']['billing']->getCountryId()), array('US', 'CA'))) {
+        $billingAddress = $data['order']['billing']->getData();
+        $region = $helper->getRegionFactory()->create()->load($billingAddress['region_id']);
+        $transaction->customer->setState($region->getCode());
+      }
 
       if (!empty(strval($data['order']['customer']['email']))) {
         $transaction->customer->setEmail(strval($data['order']['customer']['email']));
@@ -162,7 +181,6 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->customer->setPhone(strval($data['order']['billing']->getTelephone()));
 
       $notification_url = $data['urls']['notify'];
-      $notification_url = str_replace('carts.local', 'webhook.begateway.com:8443', $notification_url);
       $transaction->setNotificationUrl($notification_url);
 
       $transaction->setSuccessUrl($data['urls']['return_success']);
@@ -170,8 +188,13 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
       $transaction->setFailUrl($data['urls']['return_failure']);
       $transaction->setCancelUrl($data['urls']['return_cancel']);
 
-      $payment_methods = $this->getCheckoutTransactionTypes();
-      $helper = $this->getModuleHelper();
+      $payment_methods = $this->getCheckoutPaymentMethodTypes();
+
+      $trx_type = $this->getCheckoutTransactionTypes();
+
+      if ($trx_type == $helper::AUTHORIZE) {
+        $transaction->setAuthorizationTransactionType();
+      }
 
       if (in_array($helper::CREDIT_CARD, $payment_methods)) {
         $cc = new \BeGateway\PaymentMethod\CreditCard;
@@ -193,8 +216,15 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         $transaction->addPaymentMethod($erip);
       }
 
+      $transaction->additional_data->setMeta(array(
+        'platform_data' => 'Magento v' . $helper->getMagentoVersion(),
+        'integration_data' => 'BeGateway Magento 2 Module v' . $helper->getVersion()
+      ));
+
+      $this->_addDebugData('token_request', $transaction);
       $response = $transaction->submit();
 
+      $this->_addDebugData('token_response', $response);
       return $response;
     }
 
@@ -299,16 +329,16 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
                 $responseObject->getRedirectUrl()
             );
 
+            $this->_writeDebugData();
             return $this;
         } catch (\Exception $e) {
-            $this->getLogger()->error(
-                $e->getMessage()
-            );
+            $this->_addDebugData('exception', $e->getMessage());
 
             $this->getCheckoutSession()->setBeGatewayLastCheckoutError(
                 $e->getMessage()
             );
 
+            $this->_writeDebugData();
             $this->getModuleHelper()->maskException($e);
         }
     }
@@ -325,7 +355,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
 
-        $this->getLogger()->debug('Capture transaction for order #' . $order->getIncrementId());
+        $this->_addDebugData('capture_process', 'Capture transaction for order #' . $order->getIncrementId());
 
         $authTransaction = $this->getModuleHelper()->lookUpAuthorizationTransaction(
             $payment
@@ -336,9 +366,8 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
                 $order->getIncrementId()
             );
 
-            $this->getLogger()->error(
-                $errorMessage
-            );
+            $this->_addDebugData('capture_error', $errorMessage);
+            $this->_writeDebugData();
 
             $this->getModuleHelper()->throwWebApiException(
                 $errorMessage
@@ -348,11 +377,11 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         try {
             $this->doCapture($payment, $amount, $authTransaction);
         } catch (\Exception $e) {
-            $this->getLogger()->error(
-                $e->getMessage()
-            );
+            $this->_addDebugData('exception', $e->getMessage());
+            $this->_writeDebugData();
             $this->getModuleHelper()->maskException($e);
         }
+        $this->_writeDebugData();
 
         return $this;
     }
@@ -370,7 +399,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         /** @var \Magento\Sales\Model\Order $order */
         $order = $payment->getOrder();
 
-        $this->getLogger()->debug('Refund transaction for order #' . $order->getIncrementId());
+        $this->_addDebugData('refund_process', 'Refund transaction for order #' . $order->getIncrementId());
 
         $captureTransaction = $this->getModuleHelper()->lookUpCaptureTransaction(
             $payment
@@ -381,9 +410,8 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
                 $order->getIncrementId()
             );
 
-            $this->getLogger()->error(
-                $errorMessage
-            );
+            $this->_addDebugData('refund_error', $errorMessage);
+            $this->_writeDebugData();
 
             $this->getMessageManager()->addError($errorMessage);
 
@@ -395,9 +423,8 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         try {
             $this->doRefund($payment, $amount, $captureTransaction);
         } catch (\Exception $e) {
-            $this->getLogger()->error(
-                $e->getMessage()
-            );
+            $this->_addDebugData('exception', $e->getMessage());
+            $this->_writeDebugData();
 
             $this->getMessageManager()->addError(
                 $e->getMessage()
@@ -405,6 +432,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 
             $this->getModuleHelper()->maskException($e);
         }
+        $this->_writeDebugData();
 
         return $this;
     }
@@ -433,7 +461,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 
         $order = $payment->getOrder();
 
-        $this->getLogger()->debug('Void transaction for order #' . $order->getIncrementId());
+        $this->_addDebugData('void_process', 'Void transaction for order #' . $order->getIncrementId());
 
         $referenceTransaction = $this->getModuleHelper()->lookUpVoidReferenceTransaction(
             $payment
@@ -451,19 +479,20 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
             $errorMessage = __('Void transaction for order # %1 cannot be finished (No Authorize / Capture Transaction exists)',
                             $order->getIncrementId()
             );
+            $this->_addDebugData('void_error', $errorMessage);
+            $this->_writeDebugData();
 
-            $this->getLogger()->error($errorMessage);
             $this->getModuleHelper()->throwWebApiException($errorMessage);
         }
 
         try {
             $this->doVoid($payment, $authTransaction, $referenceTransaction);
         } catch (\Exception $e) {
-            $this->getLogger()->error(
-                $e->getMessage()
-            );
+            $this->_addDebugData('exception', $e->getMessage());
+            $this->_writeDebugData();
             $this->getModuleHelper()->maskException($e);
         }
+        $this->_writeDebugData();
 
         return $this;
     }
