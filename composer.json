@@ -2,7 +2,7 @@
   "name": "begateway/magento2-payment-module",
   "description": "BeGateway Magento 2 payment module",
   "type": "magento2-module",
-  "version": "1.2.0",
+  "version": "2.2.0",
   "license": [
     "OSL-3.0",
     "AFL-3.0"
