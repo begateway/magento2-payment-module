@@ -58,4 +58,20 @@ class Index extends \BeGateway\BeGateway\Controller\AbstractAction implements Cs
             $this->getResponse()->setHttpResponseCode(500);
         }
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function createCsrfValidationException(RequestInterface $request): ?InvalidRequestException
+    {
+        return null;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function validateForCsrf(RequestInterface $request): ?bool
+    {
+        return true;
+    }
 }
