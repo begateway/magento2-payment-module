@@ -105,3 +105,4 @@ Password: roni_cost@example.com
 | Magento version | PHP version |
 | ----------------| ------------|
 | 2.3 | 7.3 |
+| 2.4 | 7.3 |
