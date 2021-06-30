@@ -29,7 +29,7 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
       --db-name=magento \
       --db-user=magento \
       --db-password=magento \
-      --base-url=http://127.0.0.1/ \
+      --base-url=http://webhook.begateway.com:8443/ \
       --admin-firstname=John \
       --admin-lastname=Smith \
       --admin-email=admin@ecomcharge.com \
@@ -98,7 +98,7 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
 # Frontend login
 
 Username: roni_cost@example.com
-Password: roni_cost3@example.com
+Password: roni_cost@example.com
 
 # PHP requirements
 
