@@ -34,7 +34,7 @@ abstract class AbstractIpn
      */
     private $_context;
     /**
-     * @var \Zend\Log\Logger
+     * @var \Monolog\Logger
      */
     private $_logger;
     /**

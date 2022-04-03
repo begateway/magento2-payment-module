@@ -48,7 +48,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Get Instance of the Magento Code Logger
-     * @return \Zend\Log\Logger
+     * @return \Monolog\Logger
      */
     protected function getLogger()
     {

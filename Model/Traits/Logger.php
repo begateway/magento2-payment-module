@@ -19,6 +19,9 @@
 
 namespace BeGateway\BeGateway\Model\Traits;
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /**
  * Trait for defining common variables and methods for all Payment Solutions
  * Trait OnlinePaymentMethod
@@ -37,13 +40,13 @@ trait Logger
   /**
   * Init BeGateway Logger
   *
-  * @return \Zend\Log\Logger
+  * @return \Monolog\Logger
   */
   protected function _initLogger()
   {
-    $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/begateway.log');
-    $logger = new \Zend\Log\Logger();
-    $logger->addWriter($writer);
+    $writer = new StreamHandler(BP . '/var/log/begateway.log');
+    $logger = new Logger();
+    $logger->pushHandler($writer);
     return $logger;
   }
 
