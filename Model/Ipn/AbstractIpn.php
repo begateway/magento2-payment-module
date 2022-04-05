@@ -96,7 +96,7 @@ abstract class AbstractIpn
         $this->_orderFactory = $orderFactory;
         $this->_orderSender = $orderSender;
         $this->_creditMemoSender = $creditMemoSender;
-        $this->_logger = $this->_initLogger();
+        $this->_logger = $logger->withName(__CLASS__);
         $this->_moduleHelper = $moduleHelper;
         $this->_configHelper =
             $this->_moduleHelper->getMethodConfig(

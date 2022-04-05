@@ -19,9 +19,6 @@
 
 namespace BeGateway\BeGateway\Model\Traits;
 
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
 /**
  * Trait for defining common variables and methods for all Payment Solutions
  * Trait OnlinePaymentMethod
@@ -38,19 +35,6 @@ trait Logger
   protected $_debugData = [];
 
   /**
-  * Init BeGateway Logger
-  *
-  * @return \Monolog\Logger
-  */
-  protected function _initLogger()
-  {
-    $writer = new StreamHandler(BP . '/var/log/begateway.log');
-    $logger = new Logger();
-    $logger->pushHandler($writer);
-    return $logger;
-  }
-
-  /**
    * Log debug data to file
    *
    * @return void
@@ -58,7 +42,7 @@ trait Logger
   protected function _writeDebugData()
   {
     if ($this->getConfigHelper()->getDebug()) {
-      $this->getLogger()->debug(var_export($this->_debugData, true));
+      $this->getLogger()->debug($this->_getDebugMessage());
     }
   }
 
@@ -71,5 +55,14 @@ trait Logger
   {
       $this->_debugData[$key] = $value;
       return $this;
+  }
+
+  /**
+   * returns message for \Psr\Log\LoggerInterface $logger
+   * @return string
+   */
+
+  protected function _getDebugMessage() {
+    return var_export($this->_debugData, true);
   }
 }
