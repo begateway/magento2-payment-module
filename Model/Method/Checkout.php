@@ -48,7 +48,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Get Instance of the Magento Code Logger
-     * @return \Zend\Log\Logger
+     * @return \Monolog\Logger
      */
     protected function getLogger()
     {
@@ -105,7 +105,7 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_checkoutSession = $checkoutSession;
         $this->_moduleHelper = $moduleHelper;
 
-        $this->_logger = $this->_initLogger();
+        $this->_logger = $logger;
 
         $this->_configHelper =
             $this->getModuleHelper()->getMethodConfig(
@@ -522,4 +522,10 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
             $currencyCode
         );
     }
+
+    // returns array for \Magento\Payment\Model\Method\Logger $logger
+    // @return array
+    protected function _getDebugMessage() {
+        return $this->_debugData;
+      }
 }

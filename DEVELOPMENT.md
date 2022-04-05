@@ -68,12 +68,6 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
         - ./var:/var/www/html/var:delegated
     ```
 
-1. Remove these lines on `docker-compose.yml`
-
-    ```
-        - ../.composer:/var/www/html/var/composer_home:delegated
-    ```
-
 2. Sync `app` using `unison` container. Add this in `docker-compose.dev.mac.yml`
 
     ```
@@ -82,14 +76,20 @@ Clone and install Magento from Github https://github.com/magento/magento2 to the
         - ./app:/sync/app
     ```
 
-3. Mirror not synced folders before executing composer the first time
+3. Remove these lines on `docker-compose.yml`
+
+    ```
+        - ../.composer:/var/www/html/var/composer_home:delegated
+    ```
+
+4. Mirror not synced folders before executing composer the first time
 
     ```
     dockergento start
     dockergento mirror-host app dev generated pub var
     ```
 
-4. Start unison watcher to sync module files between host and container.
+5. Start unison watcher to sync module files between host and container.
 
     ```
     dockergento watch app/code/BeGateway
@@ -105,4 +105,4 @@ Password: roni_cost@example.com
 | Magento version | PHP version |
 | ----------------| ------------|
 | 2.3 | 7.3 |
-| 2.4 | 7.3 |
+| 2.4 | 7.4 |
