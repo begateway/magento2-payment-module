@@ -1,108 +1,94 @@
 # Development
 
-Clone and install `dockergento` client tool https://github.com/begateway/magento2-dockergento
+## Magento installation command
 
-Clone and install Magento from Github https://github.com/magento/magento2 to the directory `magento2` and then run commands as follows
+Run inside the `magento_allinone` container to install Magento:
 
-    export COMPOSE_HTTP_TIMEOUT=180
-    git clone https://github.com/magento/magento2
-    cd magento2
+```bash
+composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition .
+bin/magento setup:install \
+--base-url=https://magentobegateway.loca.lt \
+--db-host=db \
+--db-name=magento \
+--db-user=root \
+--db-password=root \
+--admin-firstname=Admin \
+--admin-lastname=User \
+--admin-email=admin@ecomcharge.com \
+--admin-user=admin \
+--admin-password=admin123 \
+--language=en_US \
+--currency=USD \
+--timezone=UTC \
+--use-rewrites=1 \
+--search-engine=opensearch \
+--opensearch-host=opensearch \
+--opensearch-port=9200 \
+--cache-backend=redis \
+--cache-backend-redis-server=redis \
+--cache-backend-redis-db=0
+```
 
-    # clone module repository
-    mkdir -p app/code/BeGateway
-    git clone https://github.com/begateway/magento2-payment-module app/code/BeGateway/BeGateway
+Switch Magento to a developer mode and install the sample data:
 
-    # feel free to switch to needed Magento version
-    # e.g. switch to Magento 2.2
-    git checkout 2.2
+```bash
+bin/magento deploy:mode:set developer
+bin/magento sampledata:deploy
+```
+Disable 2FA
 
-    dockergento setup
+```bash
+bin/magento module:disable Magento_AdminAdobeImsTwoFactorAuth
+bin/magento module:disable Magento_TwoFactorAuth
+bin/magento cache:flush
+```
 
-    # See Workaround to improve performance on Mac before to move forward
+Install and enable the `BeGateway_BeGateway` module:
 
-    dockergento start
-    dockergento composer config repositories.0 composer https://repo.magento.com
-    dockergento composer install
+```bash
+composer require begateway/begateway-api-php 4.4.3
+bin/magento module:enable BeGateway_BeGateway --clear-static-content
+bin/magento setup:upgrade
+bin/magento setup:static-content:deploy -f
+bin/magento cache:flush
+```
 
-    dockergento magento setup:install \
-      --db-host=db \
-      --db-name=magento \
-      --db-user=magento \
-      --db-password=magento \
-      --base-url=http://webhook.begateway.com:8443/ \
-      --admin-firstname=John \
-      --admin-lastname=Smith \
-      --admin-email=admin@ecomcharge.com \
-      --admin-user=admin \
-      --backend-frontname=admin \
-      --admin-password=password123 \
-      --language=ru_RU \
-      --currency=USD \
-      --timezone=UTC \
-      --use-rewrites=1
+## Get admin login url
 
-    dockergento magento deploy:mode:set developer
-    dockergento composer require begateway/begateway-api-php 4.4.3
+```bash
+docker exec -it magento_allinone bin/magento info:adminuri
+```
 
-    # install sample data
-    dockergento magento sampledata:deploy
+## install.sh Script
 
-    # install module
-    dockergento magento module:enable BeGateway_BeGateway --clear-static-content
-    dockergento magento setup:upgrade
+The following script automates the full installation of Magento 2.4.8-p3, sets up all required services (MySQL, OpenSearch, Redis, Nginx, PHP), installs Magento with your configuration, and enables your `BeGateway_BeGateway` module.
 
-    # copy sample data to host
-    dockergento mirror-container .
+This script will:
 
-## Workaround to improve performance on Mac.
+* Build and start all Docker containers
+* Wait until MySQL and OpenSearch are ready
+* Install Magento inside `/src`
+* Enable your `BeGateway_BeGateway` payment module
+* Expose the site externally via LocalTunnel (https://magentobegateway.loca.lt)
 
-1. Remove these lines on `docker-compose.dev.mac.yml`
+## Change base url
 
-    ```
-        - ./app:/var/www/html/app:delegated
-        - ./.git:/var/www/html/.git:delegated
-        - ./.github:/var/www/html/.github:delegated
-        - ./dev:/var/www/html/dev:delegated
-        - ./generated:/var/www/html/generated:delegated
-        - ./pub:/var/www/html/pub:delegated
-        - ./var:/var/www/html/var:delegated
-    ```
+Use instead of `magentobegateway.loca.lt` your tunnel host
 
-2. Sync `app` using `unison` container. Add this in `docker-compose.dev.mac.yml`
+```bash
+docker exec -it magento_allinone bin/magento setup:store-config:set --base-url=https://magentobegateway.loca.lt/
+docker exec -it magento_allinone bin/magento setup:store-config:set --base-url-secure=https://magentobegateway.loca.lt/
+```
 
-    ```
-    unison:
-      volumes:
-        - ./app:/sync/app
-    ```
+## Frontend login
 
-3. Remove these lines on `docker-compose.yml`
+Username: `roni_cost@example.com`
+Password: `roni_cost3@example.com`
 
-    ```
-        - ../.composer:/var/www/html/var/composer_home:delegated
-    ```
-
-4. Mirror not synced folders before executing composer the first time
-
-    ```
-    dockergento start
-    dockergento mirror-host app dev generated pub var
-    ```
-
-5. Start unison watcher to sync module files between host and container.
-
-    ```
-    dockergento watch app/code/BeGateway
-    ```
-
-# Frontend login
-
-Username: roni_cost@example.com
-Password: roni_cost@example.com
-
-# PHP requirements
+## PHP requirements
 
 | Magento version | PHP version |
 | ----------------| ------------|
 | 2.3 | 7.3 |
 | 2.4 | 7.4 |
+| 2.4 | 8.2 |
