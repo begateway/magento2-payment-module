@@ -42,7 +42,7 @@ trait Logger
   protected function _writeDebugData()
   {
     if ($this->getConfigHelper()->getDebug()) {
-      $this->getLogger()->debug($this->_getDebugMessage());
+      $this->getLogger()->debug('[' . __CLASS__ . '] '. $this->_getDebugMessage());
     }
   }
 

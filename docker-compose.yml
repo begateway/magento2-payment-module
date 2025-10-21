@@ -1,0 +1,68 @@
+services:
+  magento:
+    build:
+      context: ./docker/php-nginx
+    container_name: magento_allinone
+    ports:
+      - "8080:80"
+    volumes:
+      - auth_data:/root
+      - ./src:/var/www/html
+      - ./:/var/www/html/app/code/BeGateway/BeGateway
+    environment:
+      - COMPOSER_ALLOW_SUPERUSER=1
+    depends_on:
+      - db
+      - opensearch
+      - redis
+    networks:
+      - magento
+
+  db:
+    image: mysql:8.0
+    container_name: magento_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: magento
+      MYSQL_USER: magento
+      MYSQL_PASSWORD: magento
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - magento
+
+  opensearch:
+    image: opensearchproject/opensearch:2.11.1
+    container_name: magento_opensearch
+    environment:
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
+      - plugins.security.disabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - os_data:/usr/share/opensearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - magento
+
+  redis:
+    image: redis:7
+    container_name: magento_redis
+    restart: always
+    networks:
+      - magento
+
+volumes:
+  db_data:
+  os_data:
+  auth_data:
+
+networks:
+  magento:
+    driver: bridge

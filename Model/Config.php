@@ -289,7 +289,7 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
                 'trim',
                 explode(
                     ',',
-                    $this->getValue('payment_method_types')
+                    (string)$this->getValue('payment_method_types')
                 )
             );
     }

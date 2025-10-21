@@ -24,6 +24,9 @@ namespace BeGateway\BeGateway\Model\Method;
  * Class Checkout
  * @package BeGateway\BeGateway\Model\Method
  */
+
+use Magento\Quote\Api\Data\CartInterface;
+use Magento\Store\Model\ScopeInterface;
 class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
 {
     use \BeGateway\BeGateway\Model\Traits\OnlinePaymentMethod;
@@ -505,6 +508,43 @@ class Checkout extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
+        
+        if (!$quote) {
+            return false;
+        }
+
+        $billing = $quote->getBillingAddress();
+        if (!$billing) {
+            return false;
+        }
+
+        $storeId = (int)$quote->getStoreId();
+
+        $shopId = (string)$this->_scopeConfig->getValue(
+            'payment/begateway_checkout/shop_id',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        $shopKey = (string)$this->_scopeConfig->getValue(
+            'payment/begateway_checkout/shop_key',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        $domainCheckout = (string)$this->_scopeConfig->getValue(
+            'payment/begateway_checkout/domain_checkout',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        $domainGateway = (string)$this->_scopeConfig->getValue(
+            'payment/begateway_checkout/domain_gateway',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+
+        if ($shopId === '' || $shopKey === '' || $domainCheckout === '' || $domainGateway === '') {
+            return false;
+        }
+
         return parent::isAvailable($quote) &&
             $this->getConfigHelper()->isMethodAvailable();
     }
