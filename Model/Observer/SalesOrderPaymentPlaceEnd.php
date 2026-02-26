@@ -58,11 +58,8 @@ class SalesOrderPaymentPlaceEnd implements ObserverInterface
         $payment = $observer->getEvent()->getData('payment');
 
         switch ($payment->getMethod()) {
-            case \BeGateway\BeGateway\Model\Method\Checkout::CODE:
+            case 'begateway_checkout':
                 $this->updateOrderStatusToNew($payment);
-                break;
-            case \BeGateway\BeGateway\Model\Method\Direct::CODE:
-                $this->updateOrderStatus($payment);
                 break;
             default:
                 // Payment method not implemented. Do nothing.
