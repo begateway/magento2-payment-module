@@ -273,7 +273,7 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
                 'trim',
                 explode(
                     ',',
-                    $this->getValue('transaction_types')
+                    (string)$this->getValue('transaction_types')
                 )
             );
     }
@@ -323,7 +323,7 @@ class Config implements \Magento\Payment\Model\Method\ConfigInterface
             'trim',
             explode(
                 ',',
-                $this->getValue('specific_currencies')
+                (string)$this->getValue('specific_currencies')
             )
         );
     }
