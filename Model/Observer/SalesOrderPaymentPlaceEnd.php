@@ -61,9 +61,6 @@ class SalesOrderPaymentPlaceEnd implements ObserverInterface
             case \BeGateway\BeGateway\Model\Method\Checkout::CODE:
                 $this->updateOrderStatusToNew($payment);
                 break;
-            case \BeGateway\BeGateway\Model\Method\Direct::CODE:
-                $this->updateOrderStatus($payment);
-                break;
             default:
                 // Payment method not implemented. Do nothing.
         }
@@ -90,54 +87,6 @@ class SalesOrderPaymentPlaceEnd implements ObserverInterface
         );
 
         $order->save();
-    }
-
-    /**
-     * Update Order Status
-     *
-     * Used by the Direct Payment method
-     *
-     * @param \Magento\Payment\Model\InfoInterface $payment
-     */
-    protected function updateOrderStatus(\Magento\Payment\Model\InfoInterface $payment)
-    {
-        $helper = $this->getModuleHelper();
-
-        $transactionStatus = $this->getModuleHelper()->getPaymentAdditionalInfoValue(
-            $payment,
-            $helper::ADDITIONAL_INFO_KEY_STATUS
-        );
-
-        if (!$transactionStatus) {
-            $order = $payment->getOrder();
-
-
-            switch ($transactionStatus) {
-                case $helper::PENDING:
-                case $helper::INCOMPLETE:
-                    $redirectUrl = $this->getModuleHelper()->getPaymentAdditionalInfoValue(
-                        $payment,
-                        $helper::ADDITIONAL_INFO_KEY_REDIRECT_URL
-                    );
-
-                    if ($redirectUrl) {
-                        $this->getModuleHelper()->setOrderState(
-                            $order,
-                            $helper::PENDING
-                        );
-                    }
-                    break;
-                case $helper::SUCCESSFUL:
-                    $this->getModuleHelper()->setOrderStatusByState(
-                        $order,
-                        \Magento\Sales\Model\Order::STATE_PROCESSING
-                    );
-
-                    break;
-                default:
-                    // Other status. Do nothing.
-            }
-        }
     }
 
     /**

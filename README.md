@@ -6,8 +6,10 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
 
 ## Requirements
 
-  * Magento 2 Community Edition 2.x (Tested up to 2.3.7 / 2.4.2)
+  * Magento 2 Community Edition 2.x (Tested up to 2.4.8)
   * [BeGateway PHP API library ](https://github.com/begateway/begateway-api-php) - (Integrated in Module)
+
+*Note:* Module name: `BeGateway_BeGateway` (used in Magento commands). Package name: `begateway/magento2-payment-module` (used with Composer).
 
 *Note:* this module has been tested only with Magento 2 __Community Edition__, it may not work as intended with Magento 2 __Enterprise Edition__
 
@@ -31,7 +33,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
     $ php bin/magento setup:upgrade
     ```
 
-  * If you are not running your Magento installation in compiled mode, skip to the next step. If you are running in compiled mode, complete this step:
+  * This step is only required if your Magento installation is configured in compiled mode (most standard installations skip this):
 
     ```sh
     $ php bin/magento setup:di:compile
@@ -46,7 +48,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
     To see the full list of [ISO-636](http://www.loc.gov/standards/iso639-2/php/code_list.php) language codes, run:
 
     ```sh
-    $ php magento info:language:list  
+    $ php bin/magento info:language:list  
     ```
 
 ## Installation (manual)
@@ -56,7 +58,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
   * Install beGateway PHP API Library
 
     ```sh
-    $ composer require begateway/begateway-api-php 4.4.3
+    $ composer require begateway/begateway-api-php "~4.4.0"
     ```
 
   * Enable Payment Module
@@ -78,7 +80,7 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
     To see the full list of [ISO-636](http://www.loc.gov/standards/iso639-2/php/code_list.php) language codes, run:
 
     ```sh
-    $ php magento info:language:list  
+    $ php bin/magento info:language:list  
     ```
 
 ## Configuration
@@ -88,6 +90,11 @@ This is a Payment Module for Magento 2 Community Edition, that gives you the abi
   go to  ```System``` -> ```Cache Management``` and clear Magento Cache by clicking on ```Flush Magento Cache```
   * Go back to ```Payment Methods``` and click the button ```Configure``` under the payment method ```beGateway Checkout``` to expand the available settings
   * Set ```Enabled``` to ```Yes```, set the correct credentials, select your prefered transaction types and additional settings and click ```Save config```
+
+## Verification
+
+  * Go to your store's checkout page and confirm ```beGateway Checkout``` appears as a payment option
+  * Place a test order using the test card details provided below to verify the integration is working
 
 ## Test data
 
@@ -121,7 +128,7 @@ Use the following test card to make failed test payment:
 
 ## Требования
 
-  * Magento 2 Community Edition 2.x (тестировалось на версиях 2.3.7 / 2.4.2)
+  * Magento 2 Community Edition 2.x (тестировалось на версиях до 2.4.8)
   * [BeGateway PHP API библиотека](https://github.com/beGateway/begateway-api-php) - (поставляется с модулем)
 
 *Примечание:* этот модуль тестировался только с Magento 2 __Community Edition__ и может работать не стабильно с Magento 2 __Enterprise Edition__
@@ -146,7 +153,7 @@ Use the following test card to make failed test payment:
     $ php bin/magento setup:upgrade
     ```
 
-  * Пропустите этот шаг, если ваша версия Magento не запускается в режиме компиляции. В противном случае выполните эту команду:
+  * Этот шаг необходим только если Magento настроена для работы в режиме компиляции (большинство стандартных установок его пропускают):
 
     ```sh
     $ php bin/magento setup:di:compile
@@ -161,7 +168,7 @@ Use the following test card to make failed test payment:
     Чтобы получить полный список [ISO-636](http://www.loc.gov/standards/iso639-2/php/code_list.php) кодов языковых локалей, поддерживаемых Magento, выполните:
 
     ```sh
-    $ php magento info:language:list  
+    $ php bin/magento info:language:list  
     ```
 
 ## Установка (ручная)
@@ -171,7 +178,7 @@ Use the following test card to make failed test payment:
   * Установите beGateway PHP API библиотеку
 
     ```sh
-    $ composer require begateway/begateway-api-php 4.4.3
+    $ composer require begateway/begateway-api-php "~4.4.0"
     ```
 
   * Включить модуль оплаты
@@ -183,7 +190,7 @@ Use the following test card to make failed test payment:
     ```sh
     $ php bin/magento setup:upgrade
     ```
-  * Пропустите этот шаг, если ваша версия Magento не запускается в режиме компиляции. В противном случае выполните эту команду:
+  * Этот шаг необходим только если Magento настроена для работы в режиме компиляции (большинство стандартных установок его пропускают):
 
     ```sh
     $ php bin/magento setup:di:compile
